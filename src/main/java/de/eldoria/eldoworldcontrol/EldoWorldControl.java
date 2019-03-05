@@ -1,21 +1,21 @@
 package de.eldoria.eldoworldcontrol;
 
 import de.eldoria.eldoworldcontrol.command.AboutCommand;
-import de.eldoria.eldoworldcontrol.listener.containerControl.ContainerListener;
-import de.eldoria.eldoworldcontrol.listener.damageControl.DamageDealByEntityListener;
-import de.eldoria.eldoworldcontrol.listener.damageControl.DamageTakeByEntityListener;
-import de.eldoria.eldoworldcontrol.listener.damageControl.DamageTakeListener;
-import de.eldoria.eldoworldcontrol.listener.entityBehaviour.RideListener;
-import de.eldoria.eldoworldcontrol.listener.entityBehaviour.TameListener;
-import de.eldoria.eldoworldcontrol.listener.entityBehaviour.TargetListener;
-import de.eldoria.eldoworldcontrol.listener.playerBehaviour.LoginListener;
-import de.eldoria.eldoworldcontrol.listener.actionControl.*;
-import de.eldoria.eldoworldcontrol.listener.buildControl.*;
-import de.eldoria.eldoworldcontrol.listener.playerBehaviour.*;
-import de.eldoria.eldoworldcontrol.listener.playerMovement.GlideListener;
-import de.eldoria.eldoworldcontrol.listener.playerMovement.SneakListener;
-import de.eldoria.eldoworldcontrol.listener.playerMovement.SprintListener;
-import de.eldoria.eldoworldcontrol.listener.playerMovement.SwimListener;
+import de.eldoria.eldoworldcontrol.listener.containercontrol.ContainerListener;
+import de.eldoria.eldoworldcontrol.listener.damagecontrol.DamageDealByEntityListener;
+import de.eldoria.eldoworldcontrol.listener.damagecontrol.DamageTakeByEntityListener;
+import de.eldoria.eldoworldcontrol.listener.damagecontrol.DamageTakeListener;
+import de.eldoria.eldoworldcontrol.listener.entitybehaviour.RideListener;
+import de.eldoria.eldoworldcontrol.listener.entitybehaviour.TameListener;
+import de.eldoria.eldoworldcontrol.listener.entitybehaviour.TargetListener;
+import de.eldoria.eldoworldcontrol.listener.playerbehaviour.LoginListener;
+import de.eldoria.eldoworldcontrol.listener.actioncontrol.*;
+import de.eldoria.eldoworldcontrol.listener.buildcontrol.*;
+import de.eldoria.eldoworldcontrol.listener.playerbehaviour.*;
+import de.eldoria.eldoworldcontrol.listener.playermovement.GlideListener;
+import de.eldoria.eldoworldcontrol.listener.playermovement.SneakListener;
+import de.eldoria.eldoworldcontrol.listener.playermovement.SprintListener;
+import de.eldoria.eldoworldcontrol.listener.playermovement.SwimListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
@@ -43,12 +43,9 @@ public class EldoWorldControl extends JavaPlugin {
     public void onEnable() {
         pm = Bukkit.getPluginManager();
 
-
         if (instance == null) {
             instance = this;
         }
-
-
 
         config = this.getConfig();
 
@@ -62,13 +59,6 @@ public class EldoWorldControl extends JavaPlugin {
             instance = new EldoWorldControl();
         }
         return instance;
-    }
-
-
-    private void registerEvents(Listener... listener) {
-        for (Listener l : listener) {
-            pm.registerEvents(l, this);
-        }
     }
 
     public void reload() {
@@ -113,6 +103,7 @@ public class EldoWorldControl extends JavaPlugin {
                 registerEvent(new UseListener());
             }
         }
+
         if (config.getBoolean("Modules.BuildControl")) {
             if (config.getBoolean("Modules.BuildControl.BreakListener")) {
                 registerEvent(new BreakListener());
@@ -121,11 +112,13 @@ public class EldoWorldControl extends JavaPlugin {
                 registerEvent(new PlaceListener());
             }
         }
+
         if (config.getBoolean("Modules.ContainerControl")) {
             if (config.getBoolean("Modules.ContainerControl.ContainerListener")) {
                 registerEvent(new ContainerListener());
             }
         }
+
         if (config.getBoolean("Modules.DamageControl")) {
             if (config.getBoolean("Modules.DamageControl.DamageDealByEntityListener")) {
                 registerEvent(new DamageDealByEntityListener());
@@ -137,6 +130,7 @@ public class EldoWorldControl extends JavaPlugin {
                 registerEvent(new DamageTakeListener());
             }
         }
+
         if (config.getBoolean("Modules.EntityBehaviour")) {
             if (config.getBoolean("Modules.EntityBehaviour.InteractListener")) {
                 registerEvent(new InteractListener());
@@ -164,6 +158,7 @@ public class EldoWorldControl extends JavaPlugin {
                 }
             }
         }
+
         if (config.getBoolean("Modules.PlayerMovement")) {
             if (config.getBoolean("Modules.PlayerMovement.GlideListener")) {
                 registerEvent(new GlideListener());
