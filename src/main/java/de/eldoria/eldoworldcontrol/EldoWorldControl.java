@@ -1,38 +1,36 @@
 package de.eldoria.eldoworldcontrol;
 
-import de.eldoria.eldoworldcontrol.command.AboutCommand;
-import de.eldoria.eldoworldcontrol.listener.containercontrol.ContainerListener;
-import de.eldoria.eldoworldcontrol.listener.damagecontrol.DamageDealByEntityListener;
-import de.eldoria.eldoworldcontrol.listener.damagecontrol.DamageTakeByEntityListener;
-import de.eldoria.eldoworldcontrol.listener.damagecontrol.DamageTakeListener;
-import de.eldoria.eldoworldcontrol.listener.entitybehaviour.RideListener;
-import de.eldoria.eldoworldcontrol.listener.entitybehaviour.TameListener;
-import de.eldoria.eldoworldcontrol.listener.entitybehaviour.TargetListener;
-import de.eldoria.eldoworldcontrol.listener.playerbehaviour.LoginListener;
-import de.eldoria.eldoworldcontrol.listener.actioncontrol.*;
-import de.eldoria.eldoworldcontrol.listener.buildcontrol.*;
-import de.eldoria.eldoworldcontrol.listener.playerbehaviour.*;
-import de.eldoria.eldoworldcontrol.listener.playermovement.GlideListener;
-import de.eldoria.eldoworldcontrol.listener.playermovement.SneakListener;
-import de.eldoria.eldoworldcontrol.listener.playermovement.SprintListener;
-import de.eldoria.eldoworldcontrol.listener.playermovement.SwimListener;
+import de.eldoria.eldoworldcontrol.command.BaseCommand;
+import de.eldoria.eldoworldcontrol.controllistener.BaseControlListener;
+import de.eldoria.eldoworldcontrol.core.data.PermissionGroups;
+import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
+import de.eldoria.eldoworldcontrol.core.permissions.PermissionVerboseLogger;
+import de.eldoria.eldoworldcontrol.core.reloading.SharedData;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.logging.Logger;
+
 public class EldoWorldControl extends JavaPlugin {
-    private static FileConfiguration config;
+    private PermissionGroups groups;
+    private PermissionValidator permissionValidator;
+    private final List<BaseControlListener> modules = new ArrayList<>();
+    private final Logger logger = Bukkit.getLogger();
 
     private static EldoWorldControl instance;
+    private static boolean debug = false;
 
-    PluginManager pm;
-
-    public static FileConfiguration getConfigFile() {
-        return config;
-    }
+    private PluginManager pm;
 
     @Override
     public void onDisable() {
@@ -41,137 +39,107 @@ public class EldoWorldControl extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Just do things here which only need a single setup.
         pm = Bukkit.getPluginManager();
 
         if (instance == null) {
             instance = this;
         }
 
-        config = this.getConfig();
+        PermissionVerboseLogger logger = new PermissionVerboseLogger();
+        permissionValidator = new PermissionValidator(logger);
 
-        loadModules();
+        this.getCommand("eldoworldcontrol").setExecutor(new BaseCommand(logger));
 
-        this.getCommand("eldoworldcontrol").setExecutor(new AboutCommand());
-    }
-
-    public static EldoWorldControl getInstance() {
-        if (instance == null) {
-            instance = new EldoWorldControl();
-        }
-        return instance;
+        // Regular setup with the reload method
+        reload();
     }
 
     public void reload() {
         this.reloadConfig();
+        FileConfiguration config = this.getConfig();
+        debug = config.getBoolean("debug");
+        var data = new SharedData(config, permissionValidator);
+        permissionValidator.reload(data);
         HandlerList.unregisterAll(this);
-        loadModules();
-
+        initModules(data);
     }
 
-    private void registerEvent(Listener l) {
-        pm.registerEvents(l, this);
-    }
+    private void initModules(SharedData data) {
+        PermissionValidator validator = data.getValidator();
+        ConfigurationSection module = data.getConfiguration().getConfigurationSection("module");
 
-
-    private void loadModules() {
-        if (config.getBoolean("Modules.ActionControl")) {
-            if (config.getBoolean("Modules.ActionControl.BedListener")) {
-                registerEvent(new BedListener());
-            }
-            if (config.getBoolean("Modules.ActionControl.BucketListener")) {
-                registerEvent(new BucketListener());
-            }
-            if (config.getBoolean("Modules.ActionControl.CraftListener")) {
-                registerEvent(new CraftListener());
-            }
-            if (config.getBoolean("Modules.ActionControl.DropListener")) {
-                registerEvent(new DropListener());
-            }
-            if (config.getBoolean("Modules.ActionControl.EnchantListener")) {
-                registerEvent(new EnchantListener());
-            }
-            if (config.getBoolean("Modules.ActionControl.InteractListener")) {
-                registerEvent(new InteractListener());
-            }
-            if (config.getBoolean("Modules.ActionControl.PickupListener")) {
-                registerEvent(new PickupListener());
-            }
-            if (config.getBoolean("Modules.ActionControl.ThrowListener")) {
-                registerEvent(new ThrowListener());
-            }
-            if (config.getBoolean("Modules.ActionControl.UseListener")) {
-                registerEvent(new UseListener());
-            }
+        // load modules from config
+        if (module == null) {
+            logger.warning("No module section was found.");
+            return;
         }
 
-        if (config.getBoolean("Modules.BuildControl")) {
-            if (config.getBoolean("Modules.BuildControl.BreakListener")) {
-                registerEvent(new BreakListener());
-            }
-            if (config.getBoolean("Modules.BuildControl.PlaceListener")) {
-                registerEvent(new PlaceListener());
-            }
-        }
+        // load module names
+        Set<String> keys = module.getKeys(false);
 
-        if (config.getBoolean("Modules.ContainerControl")) {
-            if (config.getBoolean("Modules.ContainerControl.ContainerListener")) {
-                registerEvent(new ContainerListener());
-            }
-        }
+        for (var key : keys) {
+            // state of module
+            boolean state = module.getBoolean(key);
+            Class<? extends BaseControlListener> loadedClass;
 
-        if (config.getBoolean("Modules.DamageControl")) {
-            if (config.getBoolean("Modules.DamageControl.DamageDealByEntityListener")) {
-                registerEvent(new DamageDealByEntityListener());
-            }
-            if (config.getBoolean("Modules.DamageControl.DamageTakeByEntityListener")) {
-                registerEvent(new DamageTakeByEntityListener());
-            }
-            if (config.getBoolean("Modules.DamageControl.DamageTakeListener")) {
-                registerEvent(new DamageTakeListener());
-            }
-        }
-
-        if (config.getBoolean("Modules.EntityBehaviour")) {
-            if (config.getBoolean("Modules.EntityBehaviour.InteractListener")) {
-                registerEvent(new InteractListener());
-            }
-            if (config.getBoolean("Modules.EntityBehaviour.RideListener")) {
-                registerEvent(new RideListener());
-            }
-
-            if (config.getBoolean("Modules.EntityBehaviour.TameListener")) {
-                registerEvent(new TameListener());
-            }
-
-            if (config.getBoolean("Modules.EntityBehaviour.TargetListener")) {
-                registerEvent(new TargetListener());
-            }
-        }
-
-        if (config.getBoolean("Modules.PlayerBehaviour")) {
-            if (config.getBoolean("Modules.PlayerBehaviour.HungerListener")) {
-                registerEvent(new HungerListener());
-            }
-            if (config.getBoolean("Modules.PlayerBehaviour.LoginListener")) {
-                if (getServer().getPluginManager().getPlugin("LuckPerms") != null) {
-                    registerEvent(new LoginListener());
+            // Find listener class
+            try {
+                Class<?> loadClass = getClassLoader().loadClass(key);
+                if (loadClass.isAssignableFrom(BaseControlListener.class)) {
+                    loadedClass = (Class<? extends BaseControlListener>) loadClass;
+                } else {
+                    logger.warning(key + " is not a listener.");
+                    continue;
                 }
+            } catch (ClassNotFoundException e) {
+                logger.warning("Invalid module: " + key);
+                continue;
             }
-        }
 
-        if (config.getBoolean("Modules.PlayerMovement")) {
-            if (config.getBoolean("Modules.PlayerMovement.GlideListener")) {
-                registerEvent(new GlideListener());
-            }
-            if (config.getBoolean("Modules.PlayerMovement.SneakListener")) {
-                registerEvent(new SneakListener());
-            }
-            if (config.getBoolean("Modules.PlayerMovement.SprintListener")) {
-                registerEvent(new SprintListener());
-            }
-            if (config.getBoolean("Modules.PlayerMovement.SwimListener")) {
-                registerEvent(new SwimListener());
+            Optional<BaseControlListener> registeredListener = getRegisteredListener(loadedClass);
+
+            if (state) {
+                // check if listener is already registered. reload if registered
+                if (registeredListener.isPresent()) {
+                    logger.info("Module " + key + " is active.");
+                    registeredListener.get().reload(data);
+                    continue;
+                }
+
+                // Register a new plugin handler and initialize
+                try {
+                    BaseControlListener listener = loadedClass.getConstructor(PermissionValidator.class).newInstance(validator);
+                    listener.init(data);
+                    pm.registerEvents(listener, this);
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+                    logger.warning("Something went wrong while initialising: " + key);
+                }
+
+                logger.info("Registered module " + key);
+            } else {
+                // check if listener is not registered
+                if (registeredListener.isEmpty()) {
+                    logger.info("Module " + key + " in inactive.");
+                    continue;
+                }
+
+                // unregister listener
+                HandlerList.unregisterAll(registeredListener.get());
+                logger.info("Unregistered module " + key);
             }
         }
+    }
+
+    private Optional<BaseControlListener> getRegisteredListener(Class<? extends BaseControlListener> checkClass) {
+        ArrayList<RegisteredListener> listeners = HandlerList.getRegisteredListeners(this);
+
+        for (var listener : listeners) {
+            var baseListener = (BaseControlListener) listener.getListener();
+            if (baseListener.getClass() == checkClass) {
+                return Optional.of(baseListener);
+            }
+        }
+        return Optional.empty();
     }
 }
