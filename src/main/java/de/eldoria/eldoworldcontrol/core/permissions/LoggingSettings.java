@@ -18,7 +18,7 @@ public class LoggingSettings {
 
     public void dispatchLogMessage(Player p, String permission, boolean state) {
         if (target == null || target == p) {
-            MessageSender.sendMessage(owner, permission + " (" + (state ? "§agranted" : "§cdenied"));
+            MessageSender.sendMessage(owner, permission + ": " + (state ? "§agranted" : "§cdenied"));
         }
     }
 

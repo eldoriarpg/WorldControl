@@ -7,6 +7,6 @@ public final class MessageSender {
     }
 
     public static void sendMessage(Player p, String message) {
-        p.sendMessage("[WC] " + message);
+        p.sendMessage("§6[WC§6] §3" + message);
     }
 }

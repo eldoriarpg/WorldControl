@@ -32,7 +32,8 @@ public class PermissionVerboseLogger {
 
     /**
      * Set the verbose logging to a state
-     * @param p player to set the loggin state for
+     *
+     * @param p     player to set the loggin state for
      * @param state state of logging
      */
     public void setVerboseLoggingState(Player p, boolean state) {
@@ -45,7 +46,8 @@ public class PermissionVerboseLogger {
 
     /**
      * Activate verbose logging for a target
-     * @param p player to activate logging for
+     *
+     * @param p      player to activate logging for
      * @param target target of player
      */
     public void setVerboseLoggingTarget(Player p, Player target) {

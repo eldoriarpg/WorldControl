@@ -1,65 +1,70 @@
-Modules:
-  #Enable or Disable Action Control
-  ActionControl: true
-    #Controlls the usage of beds
-    BedListener: true
-    #Controlls the usage of buckets on blocks an entities
-    BucketListener: true
-    #Controlls the items a player can craft
-    CraftListener: true
-    #Controlls the items a player can drop
-    DropListener: true
-    #Controlls the items a player can enchant
-    EnchantListener: true
-    #Controllst the blocks a player can interact with
-    InteractListener: true
-    #Controlls the items and blocks a player can drop
-    PickupListener: true
-    #Controlls the items a player can throw
-    ThrowListener: true
-    #Controlls the items a player can use
-    UseListener: true
-  #Enable or Disable BuildControl
-  BuildControl: true
-    #Controlls the blocks a player can break. Sperates between can't break, can break but don't receive items and can break
-    BreakListener: true
-    #Controlls the blocks a player can place.
-    PlaceListener: true
-  #Enable or Disable ContainerControl
-  ContainerControl:
-    #Controlls the items a player can place and take from every container
-    ContainerListener: true
-  #Enable or Disable DamageControl
-  DamageControl: true
-    #Controlls the damage that a player can deal to entities
-    DamageDealByEntityListener: true
-    #Controlls the damaga that a player can take from entities
-    DamageTakeByEntityListener: true
-    #Controlls every damage, a player can take
-    DamageTakeListener: true
-  #Enable or Disable EntityBehaviour
-  EntityBehaviour: true
-    #Controlls the entities a player can interact with
-    InteractListener: true
-    #Controlls on which entities a player can ride
-    RideListener: true
-    #Controlls which animals a player can tame
-    TameListener: true
-    #Controlls which animals can take the player as target
-    TargetListener: true
-  #Enable or Disable PlayerBehaviour
-  PlayerBehaviour: true
-    #Controlls if the player can get hungry
-    HungerListener: true
-    #Controlls if a player is allowed to login on the Server. REQUIRES LUCKPERM
-    LoginListener: true
-  #Enable or Diable PlayerMovement
-  PlayerMovement: true
-    #Controlls if a player is allowed to glide
-    GlideListener: true
-    #Controlls if a player is allowed to sneak
-    SneakListener: true
-    #Controlls if a player is allowed to sprint
-    SprintListener: true
-    #Controlls if a player is allowed to swim
-    SwimListener: true
+# do not change this
+version: 1
+# causes a huge amount of log messages when set to true
+debug: true
+modules:
+  #Controls the usage of beds
+  BedListener: true
+  #Controls the usage of buckets on blocks an entities
+  BucketListener: true
+  #Controls the items a player can craft
+  CraftListener: true
+  #Controls the items a player can drop
+  DropListener: true
+  #Controls the items a player can enchant
+  EnchantListener: true
+  #Controlst the blocks a player can interact with
+  MaterialInteractListener: true
+  #Controls the items and blocks a player can drop
+  PickupListener: true
+  #Controls the items a player can smelt
+  SmeltListener: true
+  #Controls the items a player can throw
+  ThrowListener: true
+  #Controls the items a player can use
+  UseListener: true
+  #Controls the blocks a player can break. Sperates between can't break, can break but don't receive items and can break
+  BreakListener: true
+  #Controls the blocks a player can place.
+  PlaceListener: true
+  #Controls the damage that a player can deal to entities
+  DamageDealByEntityListener: true
+  #Controls the damage that a player can take from entities
+  DamageTakeByEntityListener: true
+  #Controls every damage, a player can take
+  DamageTakeListener: true
+  #Controls the entities a player can receive loot with killing them.
+  EntityLootListener: true
+  #Controls the entities a player can interact with
+  EntityInteractListener: true
+  #Controls on which entities a player can ride
+  RideListener: true
+  #Controls which animals a player can tame
+  TameListener: true
+  #Controls which animals can take the player as target
+  TargetListener: true
+  #Controls which items a player can consume
+  ConsumeListener: true
+  #Controls which items a player can fish
+  FishListener: true
+  #Controls if the player can get hungry
+  HungerListener: true
+  #Controls which entities a player can shear
+  ShearListener: true
+
+##########################################################################
+# When a user has the permission to break a block,                       #
+# but not to the permission to receive the block,                        #
+# you can enter a replacement block or item which the user will receive. #
+# You can also enter a optinal amount after the replacement              #
+##########################################################################
+dropReplacements:
+  IRON_ORE: COBBLESTONE:2
+  GOLD_ORE: COBBLESTONE
+  DIAMOND_ORE: COBBLESTONE
+  COAL_ORE: COBBLESTONE
+ItemGroups:
+  stones:
+    - stone
+    - cobblestone
+    - cleanstone

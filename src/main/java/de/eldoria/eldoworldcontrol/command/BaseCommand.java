@@ -37,7 +37,8 @@ public class BaseCommand implements CommandExecutor {
             return verboseLogging(strings, player);
         }
 
-        return false;
+        MessageSender.sendMessage(player, "invalid command");
+        return true;
     }
 
     private boolean verboseLogging(String[] strings, Player player) {
@@ -51,7 +52,7 @@ public class BaseCommand implements CommandExecutor {
             return true;
         }
 
-        var arg = strings[2];
+        var arg = strings[1];
 
         if ("on".equalsIgnoreCase(arg)) {
             logger.setVerboseLoggingState(player, true);

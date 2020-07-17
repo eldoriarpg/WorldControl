@@ -169,7 +169,7 @@ public class PermissionValidator implements Reloadable {
      * @return true if the player has the permission
      */
     public boolean canInteract(Player player, Material material) {
-        return groupPermissionCheck(player, material, "pickup");
+        return groupPermissionCheck(player, material, "interact");
     }
 
     /**
@@ -180,7 +180,7 @@ public class PermissionValidator implements Reloadable {
      * @return true if the player has the permission
      */
     public boolean canInteract(Player player, EntityType entityType) {
-        return groupPermissionCheck(player, entityType, "pickup");
+        return groupPermissionCheck(player, entityType, "interact");
     }
 
     /**
@@ -247,6 +247,17 @@ public class PermissionValidator implements Reloadable {
      */
     public boolean canBreak(Player player, Material material) {
         return groupPermissionCheck(player, material, "break");
+    }
+
+    /**
+     * Check if a player has the permission to breed a entity.
+     *
+     * @param player     player to check
+     * @param entityType entity type to check
+     * @return true if the player has the permission
+     */
+    public boolean canBreed(Player player, EntityType entityType) {
+        return groupPermissionCheck(player, entityType, "breed");
     }
 
     /**
@@ -446,7 +457,7 @@ public class PermissionValidator implements Reloadable {
         // Check for each group if the user has a permission for one of them.
 
         for (var group : groups) {
-            if (rawPermissionCheck(player, perm, group)) {
+            if (rawPermissionCheck(player, perm, "group", group)) {
                 return true;
             }
         }

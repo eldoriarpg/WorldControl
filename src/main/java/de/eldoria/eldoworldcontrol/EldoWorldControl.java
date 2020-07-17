@@ -1,7 +1,7 @@
 package de.eldoria.eldoworldcontrol;
 
 import de.eldoria.eldoworldcontrol.command.BaseCommand;
-import de.eldoria.eldoworldcontrol.controllistener.BaseControlListener;
+import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.data.PermissionGroups;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionVerboseLogger;
@@ -39,6 +39,10 @@ public class EldoWorldControl extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.saveDefaultConfig();
+
+        logger.info("World controll started!");
+
         // Just do things here which only need a single setup.
         pm = Bukkit.getPluginManager();
 
@@ -57,6 +61,7 @@ public class EldoWorldControl extends JavaPlugin {
 
     public void reload() {
         this.reloadConfig();
+        ConfigValidator.validate(this);
         FileConfiguration config = this.getConfig();
         debug = config.getBoolean("debug");
         var data = new SharedData(config, permissionValidator);
@@ -67,33 +72,32 @@ public class EldoWorldControl extends JavaPlugin {
 
     private void initModules(SharedData data) {
         PermissionValidator validator = data.getValidator();
-        ConfigurationSection module = data.getConfiguration().getConfigurationSection("module");
+        ConfigurationSection modules = data.getConfiguration().getConfigurationSection("listener");
 
         // load modules from config
-        if (module == null) {
-            logger.warning("No module section was found.");
+        if (modules == null) {
+            logger.warning("No listener section was found.");
             return;
         }
 
-        // load module names
-        Set<String> keys = module.getKeys(false);
+        // load modules names
+        Set<String> keys = modules.getKeys(false);
 
         for (var key : keys) {
-            // state of module
-            boolean state = module.getBoolean(key);
+            // state of modules
+            boolean state = modules.getBoolean(key);
             Class<? extends BaseControlListener> loadedClass;
 
             // Find listener class
             try {
-                Class<?> loadClass = getClassLoader().loadClass(key);
-                if (loadClass.isAssignableFrom(BaseControlListener.class)) {
+                Class<?> loadClass = getClassLoader()
+                        .loadClass("de.eldoria.eldoworldcontrol.controllistener." + key);
                     loadedClass = (Class<? extends BaseControlListener>) loadClass;
-                } else {
-                    logger.warning(key + " is not a listener.");
-                    continue;
-                }
             } catch (ClassNotFoundException e) {
-                logger.warning("Invalid module: " + key);
+                logger.warning("Invalid modules: " + key);
+                continue;
+            } catch (ClassCastException e) {
+                logger.warning(key + " is not a listener.");
                 continue;
             }
 
@@ -109,14 +113,16 @@ public class EldoWorldControl extends JavaPlugin {
 
                 // Register a new plugin handler and initialize
                 try {
-                    BaseControlListener listener = loadedClass.getConstructor(PermissionValidator.class).newInstance(validator);
+                    BaseControlListener listener = loadedClass
+                            .getConstructor(PermissionValidator.class)
+                            .newInstance(validator);
                     listener.init(data);
                     pm.registerEvents(listener, this);
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
                     logger.warning("Something went wrong while initialising: " + key);
                 }
 
-                logger.info("Registered module " + key);
+                logger.info("Registered modules " + key);
             } else {
                 // check if listener is not registered
                 if (registeredListener.isEmpty()) {
@@ -126,7 +132,7 @@ public class EldoWorldControl extends JavaPlugin {
 
                 // unregister listener
                 HandlerList.unregisterAll(registeredListener.get());
-                logger.info("Unregistered module " + key);
+                logger.info("Unregistered modules " + key);
             }
         }
     }

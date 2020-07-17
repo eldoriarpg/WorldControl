@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Logger;
@@ -36,6 +35,7 @@ public class PermissionGroups {
 
     /**
      * Load item groups from config file.
+     *
      * @param config file configuration object.
      */
     private void loadItemGroups(FileConfiguration config) {
@@ -44,7 +44,7 @@ public class PermissionGroups {
         potionGroups = new EnumMap<>(PotionType.class);
         damageCauseGroups = new EnumMap<>(DamageCause.class);
 
-        ConfigurationSection configGroups = config.getConfigurationSection("PermissionGroups");
+        ConfigurationSection configGroups = config.getConfigurationSection("permissionGroups");
 
         if (configGroups == null) {
             log.warning("Permission group section is missing. Ignoring");
@@ -69,7 +69,15 @@ public class PermissionGroups {
 
         detect(damageCauseGroups, possiblyEntries, this::parseDamageCause);
 
-        // TODO report unparseable items.
+        for (var entry : possiblyEntries.entrySet()) {
+            if (entry.getValue().isEmpty()) continue;
+            String unparseable = String.join(" ", entry.getValue());
+
+            Bukkit.getLogger().warning("Permission group " + entry.getKey()
+                    + " contains invalid entries: " + unparseable);
+        }
+
+        Bukkit.getLogger().info("Permission groups created");
     }
 
     /**
