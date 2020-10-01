@@ -1,7 +1,7 @@
 name: WorldControl
-authors: [RainbowdashLabs, Adwirawien, SirYwell]
+authors: [Hadde, Adwirawien, SirYwell]
 version: '0.2-BETA'
-api-version: 1.15
+api-version: 1.13
 description: New edition of the old Modifyworld plugin. Worlds administration and action restriction of players.
 main: de.eldoria.eldoworldcontrol.EldoWorldControl
 commands:

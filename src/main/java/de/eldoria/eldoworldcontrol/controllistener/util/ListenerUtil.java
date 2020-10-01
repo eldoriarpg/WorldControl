@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener.util;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.projectiles.BlockProjectileSource;
@@ -27,7 +28,7 @@ public class ListenerUtil {
         }
         // in some cases it could also be a block. Eg. dispenser
         if (source instanceof BlockProjectileSource) {
-            var damager = ((BlockProjectileSource) source).getBlock();
+            Block damager = ((BlockProjectileSource) source).getBlock();
             return new ProjectileSender(damager);
         }
 

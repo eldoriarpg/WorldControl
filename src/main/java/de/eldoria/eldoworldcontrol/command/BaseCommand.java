@@ -52,7 +52,7 @@ public class BaseCommand implements CommandExecutor {
             return true;
         }
 
-        var arg = strings[1];
+        String arg = strings[1];
 
         if ("on".equalsIgnoreCase(arg)) {
             logger.setVerboseLoggingState(player, true);

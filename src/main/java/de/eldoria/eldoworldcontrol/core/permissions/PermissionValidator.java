@@ -456,7 +456,7 @@ public class PermissionValidator implements Reloadable {
 
         // Check for each group if the user has a permission for one of them.
 
-        for (var group : groups) {
+        for (String group : groups) {
             if (rawPermissionCheck(player, perm, "group", group)) {
                 return true;
             }

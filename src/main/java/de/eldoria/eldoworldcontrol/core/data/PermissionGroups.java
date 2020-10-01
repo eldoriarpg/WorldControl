@@ -69,7 +69,7 @@ public class PermissionGroups {
 
         detect(damageCauseGroups, possiblyEntries, this::parseDamageCause);
 
-        for (var entry : possiblyEntries.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : possiblyEntries.entrySet()) {
             if (entry.getValue().isEmpty()) continue;
             String unparseable = String.join(" ", entry.getValue());
 

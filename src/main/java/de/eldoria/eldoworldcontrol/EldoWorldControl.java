@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,7 +42,7 @@ public class EldoWorldControl extends JavaPlugin {
     public void onEnable() {
         this.saveDefaultConfig();
 
-        logger.info("World controll started!");
+        logger.info("World control started!");
 
         // Just do things here which only need a single setup.
         pm = Bukkit.getPluginManager();
@@ -64,7 +65,7 @@ public class EldoWorldControl extends JavaPlugin {
         ConfigValidator.validate(this);
         FileConfiguration config = this.getConfig();
         debug = config.getBoolean("debug");
-        var data = new SharedData(config, permissionValidator);
+        SharedData data = new SharedData(config, permissionValidator);
         permissionValidator.reload(data);
         HandlerList.unregisterAll(this);
         initModules(data);
@@ -83,7 +84,7 @@ public class EldoWorldControl extends JavaPlugin {
         // load modules names
         Set<String> keys = modules.getKeys(false);
 
-        for (var key : keys) {
+        for (String key : keys) {
             // state of modules
             boolean state = modules.getBoolean(key);
             Class<? extends BaseControlListener> loadedClass;
@@ -125,7 +126,7 @@ public class EldoWorldControl extends JavaPlugin {
                 logger.info("Registered modules " + key);
             } else {
                 // check if listener is not registered
-                if (registeredListener.isEmpty()) {
+                if (!registeredListener.isPresent()) {
                     logger.info("Module " + key + " in inactive.");
                     continue;
                 }
@@ -140,8 +141,8 @@ public class EldoWorldControl extends JavaPlugin {
     private Optional<BaseControlListener> getRegisteredListener(Class<? extends BaseControlListener> checkClass) {
         ArrayList<RegisteredListener> listeners = HandlerList.getRegisteredListeners(this);
 
-        for (var listener : listeners) {
-            var baseListener = (BaseControlListener) listener.getListener();
+        for (RegisteredListener listener : listeners) {
+            BaseControlListener baseListener = (BaseControlListener) listener.getListener();
             if (baseListener.getClass() == checkClass) {
                 return Optional.of(baseListener);
             }

@@ -13,7 +13,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class EntityLootListener extends BaseControlListener {
     private final Map<Integer, Player> lastDamage = new HashMap<>();
