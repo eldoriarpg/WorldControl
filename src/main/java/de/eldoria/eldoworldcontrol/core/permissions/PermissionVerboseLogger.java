@@ -5,19 +5,33 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PermissionVerboseLogger {
-
+    private final Pattern listener = Pattern.compile("controllistener\\.([a-zA-Z]+?)$");
     private final Map<UUID, LoggingSettings> verboseLogging = new HashMap<>();
 
     public void log(Player p, String permission, boolean state) {
-        verboseLogging.values().forEach(l -> l.dispatchLogMessage(p, permission, state));
+        String s = permission + ": " + (state ? "§agranted" : "§cdenied") + " (" + getListener() + ")";
+        verboseLogging.values().forEach(l -> l.dispatchLogMessage(p, s));
+    }
+
+    private String getListener() {
+        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
+            Matcher matcher = listener.matcher(stackTraceElement.getClassName());
+            if (matcher.find()) {
+                return matcher.group(1);
+            }
+        }
+        return "unknown";
     }
 
     /**
      * Toggle the verbose logging for this player.
      *
      * @param p player to activate the logging for
+     *
      * @return true if logging is now active or false if not
      */
     public boolean toggleVerboseLogging(Player p) {

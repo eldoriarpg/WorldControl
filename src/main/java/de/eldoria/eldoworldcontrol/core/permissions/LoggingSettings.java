@@ -1,6 +1,7 @@
 package de.eldoria.eldoworldcontrol.core.permissions;
 
-import de.eldoria.eldoworldcontrol.core.MessageSender;
+import de.eldoria.eldoutilities.messages.MessageSender;
+import de.eldoria.eldoworldcontrol.core.EldoWorldControl;
 import org.bukkit.entity.Player;
 
 public class LoggingSettings {
@@ -16,9 +17,9 @@ public class LoggingSettings {
         this.target = target;
     }
 
-    public void dispatchLogMessage(Player p, String permission, boolean state) {
+    public void dispatchLogMessage(Player p, String message) {
         if (target == null || target == p) {
-            MessageSender.sendMessage(owner, permission + ": " + (state ? "§agranted" : "§cdenied"));
+            MessageSender.get(EldoWorldControl.class).sendMessage(owner, message);
         }
     }
 
