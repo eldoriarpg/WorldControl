@@ -1,6 +1,10 @@
-package de.eldoria.eldoworldcontrol;
+package de.eldoria.eldoworldcontrol.core;
 
-import de.eldoria.eldoworldcontrol.command.BaseCommand;
+import de.eldoria.eldoutilities.localization.ILocalizer;
+import de.eldoria.eldoutilities.messages.MessageSender;
+import de.eldoria.eldoutilities.plugin.EldoPlugin;
+import de.eldoria.eldoworldcontrol.ConfigValidator;
+import de.eldoria.eldoworldcontrol.command.WorldControlCommand;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.data.PermissionGroups;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
@@ -10,27 +14,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public class EldoWorldControl extends JavaPlugin {
-    private PermissionGroups groups;
-    private PermissionValidator permissionValidator;
-    private final List<BaseControlListener> modules = new ArrayList<>();
-    private final Logger logger = Bukkit.getLogger();
-
+public class EldoWorldControl extends EldoPlugin {
     private static EldoWorldControl instance;
     private static boolean debug = false;
-
+    private final List<BaseControlListener> modules = new ArrayList<>();
+    private final Logger logger = Bukkit.getLogger();
+    private PermissionGroups groups;
+    private PermissionValidator permissionValidator;
     private PluginManager pm;
 
     @Override
@@ -51,10 +52,18 @@ public class EldoWorldControl extends JavaPlugin {
             instance = this;
         }
 
+        MessageSender.create(this, "§6[WC§6]", '2', 'c');
+        ILocalizer.create(this,
+                getConfig().getString("language", "en_US"),
+                "messages",
+                "messages",
+                Locale.US,
+                "en_US", "de_DE");
+
         PermissionVerboseLogger logger = new PermissionVerboseLogger();
         permissionValidator = new PermissionValidator(logger);
 
-        this.getCommand("eldoworldcontrol").setExecutor(new BaseCommand(logger));
+        registerCommand("worldControl", new WorldControlCommand(this, logger));
 
         // Regular setup with the reload method
         reload();
@@ -93,7 +102,7 @@ public class EldoWorldControl extends JavaPlugin {
             try {
                 Class<?> loadClass = getClassLoader()
                         .loadClass("de.eldoria.eldoworldcontrol.controllistener." + key);
-                    loadedClass = (Class<? extends BaseControlListener>) loadClass;
+                loadedClass = (Class<? extends BaseControlListener>) loadClass;
             } catch (ClassNotFoundException e) {
                 logger.warning("Invalid modules: " + key);
                 continue;
