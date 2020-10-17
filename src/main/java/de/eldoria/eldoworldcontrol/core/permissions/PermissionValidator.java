@@ -14,21 +14,20 @@ import java.util.Set;
 
 public class PermissionValidator implements Reloadable {
 
+    private static final String PREFIX = "ewc.";
     private final PermissionVerboseLogger logger;
-
     private PermissionGroups groups;
 
     public PermissionValidator(PermissionVerboseLogger logger) {
         this.logger = logger;
     }
 
-    private static final String PREFIX = "ewc.";
-
     /**
      * Perform a permission check on the player.]
      *
      * @param player          player to check
      * @param permissionNodes multiple permission nodes, which will be joined with a "." seperator
+     *
      * @return true if the player has the permission
      */
     private boolean rawPermissionCheck(Player player, String... permissionNodes) {
@@ -40,6 +39,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param permission permission to check as a string
+     *
      * @return true if the player has the permission
      */
     private boolean rawPermissionCheck(Player player, String permission) {
@@ -56,10 +56,15 @@ public class PermissionValidator implements Reloadable {
      * Check if a player has the permission to enter a bed.
      *
      * @param player player to check
+     *
      * @return true if the player has the permission
      */
     public boolean canEnterBed(Player player) {
         return rawPermissionCheck(player, "enterBed");
+    }
+
+    public boolean canJoin(Player player) {
+        return rawPermissionCheck(player, "join");
     }
 
     /**
@@ -67,6 +72,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canFillBucketWith(Player player, Material material) {
@@ -78,6 +84,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canFillBucketWith(Player player, EntityType entityType) {
@@ -89,6 +96,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canEmptyBucketWith(Player player, Material material) {
@@ -100,6 +108,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canEmptyBucketWith(Player player, EntityType entityType) {
@@ -111,6 +120,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canCraft(Player player, Material material) {
@@ -122,6 +132,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canDrop(Player player, Material material) {
@@ -133,6 +144,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canDropInCreative(Player player, Material material) {
@@ -144,6 +156,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canEnchant(Player player, Material material) {
@@ -155,6 +168,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canPickup(Player player, Material material) {
@@ -166,6 +180,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canInteract(Player player, Material material) {
@@ -177,6 +192,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canInteract(Player player, EntityType entityType) {
@@ -188,6 +204,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canThrow(Player player, Material material) {
@@ -199,6 +216,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param potionType potion type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canThrowSplashPotion(Player player, PotionType potionType) {
@@ -210,6 +228,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param potionType potion type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canThrowLingeringPotion(Player player, PotionType potionType) {
@@ -221,6 +240,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canUse(Player player, Material material) {
@@ -232,6 +252,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canPlace(Player player, Material material) {
@@ -243,6 +264,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canBreak(Player player, Material material) {
@@ -254,6 +276,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canBreed(Player player, EntityType entityType) {
@@ -265,6 +288,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canBreakAndReceive(Player player, Material material) {
@@ -276,6 +300,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canDealDamageTo(Player player, EntityType entityType) {
@@ -287,6 +312,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canTakeDamageFrom(Player player, EntityType entityType) {
@@ -298,6 +324,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canTakeDamageFrom(Player player, Material entityType) {
@@ -309,6 +336,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player player to check
      * @param cause  damage cause
+     *
      * @return true if the player has the permission
      */
     public boolean canReceiveDamageThrough(Player player, DamageCause cause) {
@@ -320,6 +348,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canRide(Player player, EntityType entityType) {
@@ -331,6 +360,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canTame(Player player, EntityType entityType) {
@@ -342,6 +372,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canBeMobTarget(Player player, EntityType entityType) {
@@ -352,6 +383,7 @@ public class PermissionValidator implements Reloadable {
      * Check if a player has the permission to get hungry.
      *
      * @param player player to check
+     *
      * @return true if the player has the permission
      */
     public boolean canReceiveHunger(Player player) {
@@ -363,6 +395,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canLoot(Player player, EntityType entityType) {
@@ -374,6 +407,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canSmelt(Player player, Material material) {
@@ -385,6 +419,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canConsume(Player player, Material material) {
@@ -396,6 +431,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player   player to check
      * @param material material to check
+     *
      * @return true if the player has the permission
      */
     public boolean canFish(Player player, Material material) {
@@ -407,6 +443,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @param player     player to check
      * @param entityType entity type to check
+     *
      * @return true if the player has the permission
      */
     public boolean canShear(Player player, EntityType entityType) {
@@ -440,6 +477,7 @@ public class PermissionValidator implements Reloadable {
      * @param enumConst enum const as string
      * @param groups    optional set of groups
      * @param perms     permission nodes for root building
+     *
      * @return true if the player has the permission
      */
     private boolean checkGroupPermission(Player player, String enumConst, Set<String> groups, String... perms) {

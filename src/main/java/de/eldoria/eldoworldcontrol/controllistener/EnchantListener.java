@@ -17,7 +17,7 @@ public class EnchantListener extends BaseControlListener {
         Player p = event.getEnchanter();
         Material materialName = event.getItem().getType();
 
-        if(validator.canEnchant(p, materialName)) return;
+        if (validator.canEnchant(p, materialName)) return;
 
         event.setCancelled(true);
     }

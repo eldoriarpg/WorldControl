@@ -83,13 +83,12 @@ public class PermissionGroups {
     /**
      * Try to parse the string to a enum.
      *
-     * @param matchResults data to match to groups. The key is the name of the group.
-     *                     The values will be parsed to a enum value.
-     *                     If the value could be parsed the string will be removed from the list.
-     * @param matchData    A empty enum map of type E. Parsed values will be added to a set of groups.
-     *                     A enum value can have multiple groups.
-     * @param function     function to parse a string value to enum of type E.
-     *                     Should return null, if the string can't be parsed.
+     * @param matchResults data to match to groups. The key is the name of the group. The values will be parsed to a
+     *                     enum value. If the value could be parsed the string will be removed from the list.
+     * @param matchData    A empty enum map of type E. Parsed values will be added to a set of groups. A enum value can
+     *                     have multiple groups.
+     * @param function     function to parse a string value to enum of type E. Should return null, if the string can't
+     *                     be parsed.
      * @param <E>          Enum type for parsing and mapping of the groups.
      */
     private <E extends Enum<E>> void detect(Map<E, Set<String>> matchResults, Map<String, List<String>> matchData,
@@ -121,6 +120,7 @@ public class PermissionGroups {
      * Parse string to a entity type.
      *
      * @param string string to parse
+     *
      * @return entity type value or null if the string could not be parsed
      */
     private EntityType parseEntityType(String string) {
@@ -136,6 +136,7 @@ public class PermissionGroups {
      * Parse string to potion type.
      *
      * @param string string to parse
+     *
      * @return potion type value or null if the string could not be parsed
      */
     private PotionType parsePotionType(String string) {
@@ -151,6 +152,7 @@ public class PermissionGroups {
      * Parse string to damage cause.
      *
      * @param string string to parse
+     *
      * @return potion type value or null if the string could not be parsed
      */
     private DamageCause parseDamageCause(String string) {
@@ -166,6 +168,7 @@ public class PermissionGroups {
      * Get all groups to which the entity type belongs to.
      *
      * @param type type to receive the groups of
+     *
      * @return set of groups if the type belongs to one or more groups or empty set
      */
     public Set<String> getGroups(EntityType type) {
@@ -179,6 +182,7 @@ public class PermissionGroups {
      * Get all groups to which the damage cause belongs to.
      *
      * @param cause cause to receive the groups of
+     *
      * @return set of groups if the cause belongs to one or more groups or empty set
      */
     public Set<String> getGroups(DamageCause cause) {
@@ -192,6 +196,7 @@ public class PermissionGroups {
      * Get all groups to which the material belongs to.
      *
      * @param material material to receive the groups of
+     *
      * @return set of groups if the material belongs to one or more groups or empty set
      */
     public Set<String> getGroups(Material material) {
@@ -205,6 +210,7 @@ public class PermissionGroups {
      * Get all groups to which the material belongs to.
      *
      * @param type type to receive the groups of
+     *
      * @return set of groups if the potion type belongs to one or more groups or empty set
      */
     public Set<String> getGroups(PotionType type) {

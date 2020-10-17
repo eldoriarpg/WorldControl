@@ -1,8 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
-import de.eldoria.eldoworldcontrol.controllistener.util.ListenerUtil;
-import de.eldoria.eldoworldcontrol.controllistener.util.ProjectileSender;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;

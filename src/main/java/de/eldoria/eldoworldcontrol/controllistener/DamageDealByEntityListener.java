@@ -1,8 +1,8 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.entityutils.ProjectileSender;
+import de.eldoria.eldoutilities.entityutils.ProjectileUtil;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
-import de.eldoria.eldoworldcontrol.controllistener.util.ListenerUtil;
-import de.eldoria.eldoworldcontrol.controllistener.util.ProjectileSender;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +18,7 @@ public class DamageDealByEntityListener extends BaseControlListener {
 
     @EventHandler
     public void onDamageDeal(EntityDamageByEntityEvent event) {
-        ProjectileSender sender = ListenerUtil.getProjectileSource(event.getDamager());
+        ProjectileSender sender = ProjectileUtil.getProjectileSource(event.getDamager());
 
         if (!sender.isEmpty()) {
             if (sender.isEntity() && sender.getEntity() instanceof Player) {

@@ -22,7 +22,7 @@ public class FishListener extends BaseControlListener {
         Item caught = (Item) event.getCaught();
 
         // however... better be sure.
-        if(caught == null) return;
+        if (caught == null) return;
 
         if (validator.canFish(event.getPlayer(), caught.getItemStack().getType())) {
             return;

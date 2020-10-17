@@ -28,7 +28,7 @@ public class SmeltListener extends BaseControlListener {
             return;
         }
 
-        if(event.getClickedInventory() == null) return;
+        if (event.getClickedInventory() == null) return;
 
         if (event.getClickedInventory().getType() != InventoryType.FURNACE) return;
 

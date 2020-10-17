@@ -19,7 +19,7 @@ public class BreedListener extends BaseControlListener {
 
         Player player = (Player) breeder;
 
-        if(validator.canBreed(player, event.getEntityType())){
+        if (validator.canBreed(player, event.getEntityType())) {
             return;
         }
 
