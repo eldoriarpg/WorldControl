@@ -1,10 +1,10 @@
-name: WorldControl
+name: ${project.name}
 authors: [Hadde, Adwirawien, SirYwell]
-version: '0.2-BETA'
+version: ${project.version}
 api-version: 1.13
-description: New edition of the old Modifyworld plugin. Worlds administration and action restriction of players.
-main: de.eldoria.eldoworldcontrol.EldoWorldControl
+description: ${project.description}
+main: de.eldoria.eldoworldcontrol.core.EldoWorldControl
 commands:
-  eldoworldcontrol:
+  worldcontrol:
     description: World control settings
-    aliases: [ewc]
+    aliases: [wc]
