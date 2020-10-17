@@ -21,12 +21,14 @@ public final class ConfigValidator {
         setIfAbsent(config, LISTENER + "CraftListener", false);
         setIfAbsent(config, LISTENER + "DamageDealByEntityListener", false);
         setIfAbsent(config, LISTENER + "DamageTakeByEntityListener", false);
+        setIfAbsent(config, LISTENER + "DamageTakeListener", false);
         setIfAbsent(config, LISTENER + "DropListener", false);
         setIfAbsent(config, LISTENER + "EnchantListener", false);
         setIfAbsent(config, LISTENER + "EntityInteractListener", false);
         setIfAbsent(config, LISTENER + "EntityLootListener", false);
         setIfAbsent(config, LISTENER + "FishListener", false);
         setIfAbsent(config, LISTENER + "HungerListener", false);
+        setIfAbsent(config, LISTENER + "LoginListener", false);
         setIfAbsent(config, LISTENER + "MaterialInteractListener", false);
         setIfAbsent(config, LISTENER + "PickupListener", false);
         setIfAbsent(config, LISTENER + "PlaceListener", false);
