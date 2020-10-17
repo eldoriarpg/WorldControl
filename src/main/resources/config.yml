@@ -2,6 +2,7 @@
 version: 1
 # causes a huge amount of log messages when set to true
 debug: true
+language: 'en_US'
 modules:
   #Controls the usage of beds
   BedListener: true
