@@ -19,6 +19,9 @@ public class Reload extends EldoCommand {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (denyAccess(sender, "ewc.command.reload")) {
+            return true;
+        }
         plugin.reload();
         messageSender().sendLocalizedMessage(sender, "Reload complete.");
         return true;

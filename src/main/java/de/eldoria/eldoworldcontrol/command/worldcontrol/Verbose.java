@@ -26,6 +26,10 @@ public class Verbose extends EldoCommand {
             return false;
         }
 
+        if (denyAccess(sender, "ewc.command.verbose")) {
+            return true;
+        }
+
         Player player = getPlayerFromSender(sender);
 
         if (args.length == 0) {
