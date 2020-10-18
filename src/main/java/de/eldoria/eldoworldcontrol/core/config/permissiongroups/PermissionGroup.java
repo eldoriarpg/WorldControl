@@ -3,7 +3,6 @@ package de.eldoria.eldoworldcontrol.core.config.permissiongroups;
 import de.eldoria.eldoutilities.serialization.SerializationUtil;
 import de.eldoria.eldoutilities.serialization.TypeResolvingMap;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +15,8 @@ import java.util.Objects;
 @Getter
 @SerializableAs("ewcPermissionGroup")
 public class PermissionGroup implements ConfigurationSerializable {
-    private String name;
-    private List<String> entries;
+    private final String name;
+    private final List<String> entries;
 
     public PermissionGroup(Map<String, Object> objectMap) {
         TypeResolvingMap map = SerializationUtil.mapOf(objectMap);

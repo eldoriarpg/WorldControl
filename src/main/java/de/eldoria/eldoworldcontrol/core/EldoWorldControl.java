@@ -3,8 +3,6 @@ package de.eldoria.eldoworldcontrol.core;
 import de.eldoria.eldoutilities.localization.ILocalizer;
 import de.eldoria.eldoutilities.messages.MessageSender;
 import de.eldoria.eldoutilities.plugin.EldoPlugin;
-import de.eldoria.eldoutilities.serialization.SerializationUtil;
-import de.eldoria.eldoworldcontrol.ConfigValidator;
 import de.eldoria.eldoworldcontrol.command.WorldControlCommand;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.config.Config;
@@ -20,23 +18,18 @@ import de.eldoria.eldoworldcontrol.core.permissions.PermissionVerboseLogger;
 import de.eldoria.eldoworldcontrol.core.reloading.SharedData;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
 public class EldoWorldControl extends EldoPlugin {
-    private static EldoWorldControl instance;
     private static boolean debug = false;
-    private final List<BaseControlListener> modules = new ArrayList<>();
     private PermissionValidator permissionValidator;
-    private PluginManager pm;
-    private boolean initialized = false;
+    private final boolean initialized = false;
     private Config config;
 
     @Override
@@ -46,8 +39,6 @@ public class EldoWorldControl extends EldoPlugin {
 
     @Override
     public void onEnable() {
-        this.saveDefaultConfig();
-
         getLogger().info("§2Initializing Eldo World Control!");
 
         if (!initialized) {
@@ -124,7 +115,7 @@ public class EldoWorldControl extends EldoPlugin {
                             .getConstructor(PermissionValidator.class)
                             .newInstance(validator);
                     listener.init(data);
-                    pm.registerEvents(listener, this);
+                    getPluginManager().registerEvents(listener, this);
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
                     getLogger().warning("Something went wrong while initialising: " + setting.getClazz());
                 }

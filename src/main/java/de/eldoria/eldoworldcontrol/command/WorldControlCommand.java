@@ -3,10 +3,10 @@ package de.eldoria.eldoworldcontrol.command;
 import de.eldoria.eldoutilities.localization.ILocalizer;
 import de.eldoria.eldoutilities.messages.MessageSender;
 import de.eldoria.eldoutilities.simplecommands.EldoCommand;
-import de.eldoria.eldoworldcontrol.core.EldoWorldControl;
 import de.eldoria.eldoworldcontrol.command.worldcontrol.About;
 import de.eldoria.eldoworldcontrol.command.worldcontrol.Reload;
 import de.eldoria.eldoworldcontrol.command.worldcontrol.Verbose;
+import de.eldoria.eldoworldcontrol.core.EldoWorldControl;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionVerboseLogger;
 import org.bukkit.plugin.Plugin;
 

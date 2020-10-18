@@ -6,8 +6,8 @@ import lombok.Getter;
 
 @Getter
 public class SharedData {
-    private Config config;
-    private PermissionValidator permissionValidator;
+    private final Config config;
+    private final PermissionValidator permissionValidator;
 
     public SharedData(Config config, PermissionValidator permissionValidator) {
         this.config = config;

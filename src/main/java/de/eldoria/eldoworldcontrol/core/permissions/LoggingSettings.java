@@ -5,7 +5,7 @@ import de.eldoria.eldoworldcontrol.core.EldoWorldControl;
 import org.bukkit.entity.Player;
 
 public class LoggingSettings {
-    private Player owner;
+    private final Player owner;
     private Player target;
 
     public LoggingSettings(Player owner) {

@@ -15,9 +15,9 @@ import java.util.Map;
 @Getter
 @SerializableAs("ewcDropReplacement")
 public class DropReplacement implements ConfigurationSerializable {
-    private Material material;
-    private Material replacement;
-    private int amount;
+    private final Material material;
+    private final Material replacement;
+    private final int amount;
 
     public DropReplacement(Map<String, Object> objectMap) {
         TypeResolvingMap map = SerializationUtil.mapOf(objectMap);
@@ -26,7 +26,7 @@ public class DropReplacement implements ConfigurationSerializable {
         amount = map.getValueOrDefault("amount", 1);
     }
 
-    public ItemStack getItemStack(){
+    public ItemStack getItemStack() {
         return new ItemStack(replacement, amount);
     }
 

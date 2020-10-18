@@ -13,7 +13,7 @@ import java.util.Map;
 @Getter
 @SerializableAs("ewcModuleSetting")
 public class ModuleSetting implements ConfigurationSerializable {
-    private String clazz;
+    private final String clazz;
     private boolean enabled = true;
     private boolean errorMessageEnabled = true;
 

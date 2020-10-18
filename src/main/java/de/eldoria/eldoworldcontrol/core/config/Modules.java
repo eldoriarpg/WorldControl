@@ -43,6 +43,7 @@ import java.util.Optional;
 @SerializableAs("ewcModules")
 public class Modules implements ConfigurationSerializable {
     private static final List<Class<? extends BaseControlListener>> LISTENER = new ArrayList<>();
+    private final Map<Class<? extends BaseControlListener>, ModuleSetting> settings = new HashMap<>();
 
     static {
         LISTENER.add(BedListener.class);
@@ -72,8 +73,6 @@ public class Modules implements ConfigurationSerializable {
         LISTENER.add(ThrowListener.class);
         LISTENER.add(UseListener.class);
     }
-
-    private final Map<Class<? extends BaseControlListener>, ModuleSetting> settings = new HashMap<>();
 
     public Modules() {
         LISTENER.forEach(l -> settings.put(l, new ModuleSetting(l)));
