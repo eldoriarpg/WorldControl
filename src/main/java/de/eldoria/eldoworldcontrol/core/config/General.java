@@ -12,13 +12,13 @@ import java.util.Map;
 @Getter
 @SerializableAs("ewcGeneral")
 public class General implements ConfigurationSerializable {
-    private boolean debug = true;
+    private boolean debug = false;
     private String language = "en_US";
 
     public General() {
     }
 
-    public General(Map<String, Object> objectMap){
+    public General(Map<String, Object> objectMap) {
         TypeResolvingMap map = SerializationUtil.mapOf(objectMap);
         debug = map.getValueOrDefault("debug", debug);
         language = map.getValueOrDefault("language", language);
@@ -26,6 +26,9 @@ public class General implements ConfigurationSerializable {
 
     @Override
     public @NotNull Map<String, Object> serialize() {
-        return null;
+        return SerializationUtil.newBuilder()
+                .add("debug", debug)
+                .add("language", language)
+                .build();
     }
 }
