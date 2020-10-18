@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
@@ -97,16 +98,19 @@ public class PermissionGroups implements ConfigurationSerializable {
     }
 
     public Set<PermissionGroup> getGroups(Material material) {
-        return materialGroups.get(material);
+        return materialGroups.getOrDefault(material, Collections.emptySet());
     }
+
     public Set<PermissionGroup> getGroups(EntityType material) {
-        return entityGroups.get(material);
+        return entityGroups.getOrDefault(material, Collections.emptySet());
     }
+
     public Set<PermissionGroup> getGroups(PotionType material) {
-        return potionGroups.get(material);
+        return potionGroups.getOrDefault(material, Collections.emptySet());
     }
+
     public Set<PermissionGroup> getGroups(EntityDamageEvent.DamageCause material) {
-        return damageCauseGroups.get(material);
+        return damageCauseGroups.getOrDefault(material, Collections.emptySet());
     }
 
     private enum EnumType {MATERIAL, ENTITY, POTION, CAUSE}
