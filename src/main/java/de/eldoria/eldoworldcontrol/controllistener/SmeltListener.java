@@ -40,8 +40,10 @@ public class SmeltListener extends BaseControlListener {
         Player player = (Player) event.getWhoClicked();
         if (validator.canSmelt(player, event.getCurrentItem().getType())) return;
 
-        sender.sendLocalizedError(player, "permission.error.smelt",
-                Replacement.create("MAT", event.getCurrentItem().getType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(player, "permission.error.smelt",
+                    Replacement.create("MAT", event.getCurrentItem().getType(), '6'));
+        }
         event.setCancelled(true);
     }
 }

@@ -19,8 +19,10 @@ public class PlaceListener extends BaseControlListener {
         Material material = event.getBlock().getType();
 
         if (validator.canPlace(p, material)) return;
-        sender.sendLocalizedError(p, "permission.error.place",
-                Replacement.create("MAT", material, '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.place",
+                    Replacement.create("MAT", material, '6'));
+        }
         event.setCancelled(true);
     }
 

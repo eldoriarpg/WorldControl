@@ -23,8 +23,10 @@ public class PickupListener extends BaseControlListener {
 
         if (validator.canPickup(p, material)) return;
 
-        sender.sendLocalizedError(p, "permission.error.pickup",
-                Replacement.create("MAT", material, '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.pickup",
+                    Replacement.create("MAT", material, '6'));
+        }
         event.setCancelled(true);
 
     }

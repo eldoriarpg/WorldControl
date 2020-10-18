@@ -38,8 +38,10 @@ public class BreakListener extends BaseControlListener {
             }
             return;
         }
-        sender.sendLocalizedError(p, "permission.error.breakBlock",
-                Replacement.create("MAT", material, '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.breakBlock",
+                    Replacement.create("MAT", material, '6'));
+        }
         event.setCancelled(true);
     }
 

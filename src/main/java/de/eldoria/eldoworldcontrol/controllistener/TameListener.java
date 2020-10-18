@@ -19,8 +19,10 @@ public class TameListener extends BaseControlListener {
 
         if (validator.canTame(p, event.getEntityType())) return;
 
-        sender.sendLocalizedError(p, "permission.error.tame",
-                Replacement.create("ENTITY", event.getEntityType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.tame",
+                    Replacement.create("ENTITY", event.getEntityType(), '6'));
+        }
         event.setCancelled(true);
     }
 }

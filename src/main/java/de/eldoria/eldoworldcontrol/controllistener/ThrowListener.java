@@ -36,8 +36,10 @@ public class ThrowListener extends BaseControlListener {
             if (validator.canThrow(p, material)) return;
         }
 
-        sender.sendLocalizedError(p, "permission.error.throw",
-                Replacement.create("MAT", material, '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.throw",
+                    Replacement.create("MAT", material, '6'));
+        }
         event.setCancelled(true);
     }
 

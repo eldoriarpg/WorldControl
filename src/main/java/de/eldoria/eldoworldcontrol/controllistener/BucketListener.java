@@ -22,8 +22,10 @@ public class BucketListener extends BaseControlListener {
         Player p = event.getPlayer();
 
         if (validator.canFillBucketWith(p, event.getBlockClicked().getType())) return;
-        sender.sendLocalizedError(p, "permission.error.bucketFill",
-                Replacement.create("MAT", event.getBlockClicked().getType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.bucketFill",
+                    Replacement.create("MAT", event.getBlockClicked().getType(), '6'));
+        }
         event.setCancelled(true);
     }
 
@@ -35,8 +37,10 @@ public class BucketListener extends BaseControlListener {
 
         if (hasNoBucket(p)) return;
         if (validator.canFillBucketWith(p, t)) return;
-        sender.sendLocalizedError(p, "permission.error.bucketFill",
-                Replacement.create("MAT", event.getRightClicked().getType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.bucketFill",
+                    Replacement.create("MAT", event.getRightClicked().getType(), '6'));
+        }
         event.setCancelled(true);
     }
 
@@ -45,8 +49,10 @@ public class BucketListener extends BaseControlListener {
         Player p = event.getPlayer();
 
         if (validator.canEmptyBucketWith(p, event.getBucket())) return;
-        sender.sendLocalizedError(p, "permission.error.bucketEmpty",
-                Replacement.create("MAT", event.getBucket(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.bucketEmpty",
+                    Replacement.create("MAT", event.getBucket(), '6'));
+        }
         event.setCancelled(true);
     }
 

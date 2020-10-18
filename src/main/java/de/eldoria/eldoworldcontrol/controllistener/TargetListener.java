@@ -21,8 +21,10 @@ public class TargetListener extends BaseControlListener {
 
             if (validator.canBeMobTarget(p, event.getEntityType())) return;
 
-            sender.sendLocalizedError(p, "permission.error.target",
-                    Replacement.create("ENTITY", event.getEntityType(), '6'));
+            if (messages) {
+                sender.sendLocalizedError(p, "permission.error.target",
+                        Replacement.create("ENTITY", event.getEntityType(), '6'));
+            }
             event.setCancelled(true);
             event.setTarget(null);
         }

@@ -14,15 +14,17 @@ public abstract class BaseControlListener implements Listener, Reloadable {
     protected MessageSender sender;
     protected ILocalizer localizer;
     protected ModuleSetting moduleSetting;
+    protected boolean messages;
 
     public BaseControlListener(PermissionValidator validator) {
         this.validator = validator;
         sender = MessageSender.get(EldoWorldControl.class);
-        ILocalizer pluginLocalizer = ILocalizer.getPluginLocalizer(EldoWorldControl.class);
+        localizer = ILocalizer.getPluginLocalizer(EldoWorldControl.class);
     }
 
     @Override
     public void reload(SharedData data) {
         moduleSetting = data.getConfig().getModules().getSettings(getClass());
+        messages = moduleSetting.isErrorMessageEnabled();
     }
 }

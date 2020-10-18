@@ -38,8 +38,10 @@ public class UseListener extends BaseControlListener {
                 return;
             }
             if (!mainMaterial.isItem()) return;
-            sender.sendLocalizedError(p, "permission.error.use",
-                    Replacement.create("MAT", mainMaterial, '6'));
+            if (messages) {
+                sender.sendLocalizedError(p, "permission.error.use",
+                        Replacement.create("MAT", mainMaterial, '6'));
+            }
             event.setCancelled(true);
             return;
         }
@@ -49,8 +51,10 @@ public class UseListener extends BaseControlListener {
                 return;
             }
             if (!mainMaterial.isItem()) return;
-            sender.sendLocalizedError(p, "permission.error.use",
-                    Replacement.create("MAT", offHandMaterial, '6'));
+            if (messages) {
+                sender.sendLocalizedError(p, "permission.error.use",
+                        Replacement.create("MAT", offHandMaterial, '6'));
+            }
             event.setCancelled(true);
         }
     }

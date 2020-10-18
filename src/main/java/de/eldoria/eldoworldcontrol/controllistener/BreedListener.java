@@ -23,9 +23,10 @@ public class BreedListener extends BaseControlListener {
         if (validator.canBreed(player, event.getEntityType())) {
             return;
         }
-
-        sender.sendLocalizedError(player, "permission.error.breed",
-                Replacement.create("ENTITY", event.getEntityType(),'6'));
+        if (messages) {
+            sender.sendLocalizedError(player, "permission.error.breed",
+                    Replacement.create("ENTITY", event.getEntityType(), '6'));
+        }
         event.setCancelled(true);
         event.setExperience(0);
     }

@@ -25,8 +25,10 @@ public class DamageDealByEntityListener extends BaseControlListener {
             if (sender.isEntity() && sender.getEntity() instanceof Player) {
                 Player player = (Player) sender.getEntity();
                 if (!validator.canDealDamageTo(player, event.getEntityType())) {
-                    super.sender.sendLocalizedError(player, "permission.error.dealDamageEntity",
-                            Replacement.create("ENTITY", event.getEntityType(), '6'));
+                    if (messages) {
+                        super.sender.sendLocalizedError(player, "permission.error.dealDamageEntity",
+                                Replacement.create("ENTITY", event.getEntityType(), '6'));
+                    }
                     event.setDamage(0);
                     event.setCancelled(true);
                 }
@@ -39,7 +41,9 @@ public class DamageDealByEntityListener extends BaseControlListener {
         Player p = (Player) event.getDamager();
 
         if (validator.canDealDamageTo(p, event.getEntityType())) return;
-        super.sender.sendLocalizedError(p, "permission.error.dealDamageEntity");
+        if (messages) {
+            super.sender.sendLocalizedError(p, "permission.error.dealDamageEntity");
+        }
         event.setDamage(0);
         event.setCancelled(true);
     }

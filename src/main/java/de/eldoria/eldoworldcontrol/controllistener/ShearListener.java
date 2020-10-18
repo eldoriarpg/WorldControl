@@ -16,8 +16,10 @@ public class ShearListener extends BaseControlListener {
     public void onShear(PlayerShearEntityEvent event) {
         if (validator.canShear(event.getPlayer(), event.getEntity().getType())) return;
 
-        sender.sendLocalizedError(event.getPlayer(), "permission.error.shear",
-                Replacement.create("ENTITY", event.getEntity().getType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(event.getPlayer(), "permission.error.shear",
+                    Replacement.create("ENTITY", event.getEntity().getType(), '6'));
+        }
         event.setCancelled(true);
     }
 }

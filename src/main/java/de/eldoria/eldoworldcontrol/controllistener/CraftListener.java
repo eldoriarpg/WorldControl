@@ -22,8 +22,10 @@ public class CraftListener extends BaseControlListener {
             Material material = event.getInventory().getResult().getType();
 
             if (validator.canCraft(p, material)) return;
-            sender.sendLocalizedError(p, "permission.error.craft",
-                    Replacement.create("MAT", material, '6'));
+            if (messages) {
+                sender.sendLocalizedError(p, "permission.error.craft",
+                        Replacement.create("MAT", material, '6'));
+            }
             event.setCancelled(true);
         }
     }

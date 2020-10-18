@@ -38,8 +38,10 @@ public class MaterialInteractListener extends BaseControlListener {
 
         if (validator.canInteract(p, material)) return;
 
-        sender.sendLocalizedError(p,"permission.error.interact",
-                Replacement.create("MAT", material, '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.interact",
+                    Replacement.create("MAT", material, '6'));
+        }
         event.setCancelled(true);
     }
 }

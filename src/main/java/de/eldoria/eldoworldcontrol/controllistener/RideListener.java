@@ -18,8 +18,10 @@ public class RideListener extends BaseControlListener {
             Player p = (Player) event.getEntity();
 
             if (validator.canRide(p, event.getEntityType())) return;
-            sender.sendLocalizedError(p, "permission.error.ride",
-                    Replacement.create("ENTITY", event.getEntityType(), '6'));
+            if (messages) {
+                sender.sendLocalizedError(p, "permission.error.ride",
+                        Replacement.create("ENTITY", event.getEntityType(), '6'));
+            }
 
             event.setCancelled(true);
         }

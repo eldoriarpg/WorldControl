@@ -17,8 +17,10 @@ public class EntityInteractListener extends BaseControlListener {
         Player p = event.getPlayer();
 
         if (validator.canInteract(p, event.getRightClicked().getType())) return;
-        sender.sendLocalizedError(p, "permission.error.interactEntity",
-                Replacement.create("ENTITY", event.getRightClicked().getType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.interactEntity",
+                    Replacement.create("ENTITY", event.getRightClicked().getType(), '6'));
+        }
         event.setCancelled(true);
     }
 }

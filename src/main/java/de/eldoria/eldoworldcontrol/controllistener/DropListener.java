@@ -26,8 +26,10 @@ public class DropListener extends BaseControlListener {
         } else {
             if (validator.canDrop(p, materialName)) return;
         }
-        sender.sendLocalizedError(p, "permission.error.drop",
-                Replacement.create("MAT", materialName, '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.drop",
+                    Replacement.create("MAT", materialName, '6'));
+        }
         event.setCancelled(true);
     }
 

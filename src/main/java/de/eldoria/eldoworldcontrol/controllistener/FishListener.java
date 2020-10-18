@@ -29,8 +29,10 @@ public class FishListener extends BaseControlListener {
             return;
         }
 
-        sender.sendLocalizedError(event.getPlayer(), "permission.error.fish",
-                Replacement.create("MAT", caught.getItemStack().getType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(event.getPlayer(), "permission.error.fish",
+                    Replacement.create("MAT", caught.getItemStack().getType(), '6'));
+        }
 
         // remove fished item
         event.getCaught().remove();

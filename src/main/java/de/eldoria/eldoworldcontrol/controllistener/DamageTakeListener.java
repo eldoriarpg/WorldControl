@@ -20,10 +20,12 @@ public class DamageTakeListener extends BaseControlListener {
             Player p = (Player) event.getEntity();
 
             if (validator.canReceiveDamageThrough(p, event.getCause())) return;
-            sender.sendLocalizedError(p, "permission.error.damageTake",
-                    Replacement.create("CAUSE", event.getCause(), '6'));
+            if (messages) {
+                sender.sendLocalizedError(p, "permission.error.damageTake",
+                        Replacement.create("CAUSE", event.getCause(), '6'));
+            }
             event.setCancelled(true);
-            p.setHealth(20);
+            p.setHealth(Math.min(p.getHealth() + event.getDamage(), 20));
         }
     }
 }

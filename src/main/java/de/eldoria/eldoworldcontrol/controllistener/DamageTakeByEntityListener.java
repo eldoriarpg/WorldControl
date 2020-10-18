@@ -35,8 +35,10 @@ public class DamageTakeByEntityListener extends BaseControlListener {
             } else {
                 if (validator.canTakeDamageFrom(p, event.getDamager().getType())) return;
             }
-            super.sender.sendLocalizedError(p, "permission.error.damageTakeEntity",
-                    Replacement.create("permission.error.damageTakeEntity", event.getDamager().getType(), '6'));
+            if (messages) {
+                super.sender.sendLocalizedError(p, "permission.error.damageTakeEntity",
+                        Replacement.create("permission.error.damageTakeEntity", event.getDamager().getType(), '6'));
+            }
             event.setCancelled(true);
             event.setDamage(0);
         }

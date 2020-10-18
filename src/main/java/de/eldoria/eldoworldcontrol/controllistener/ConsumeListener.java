@@ -14,8 +14,10 @@ public class ConsumeListener extends BaseControlListener {
     @EventHandler
     public void onConsume(PlayerItemConsumeEvent event) {
         if (validator.canConsume(event.getPlayer(), event.getItem().getType())) return;
-        sender.sendLocalizedError(event.getPlayer(), "permission.error.consume",
-                Replacement.create("MAT", event.getItem().getType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(event.getPlayer(), "permission.error.consume",
+                    Replacement.create("MAT", event.getItem().getType(), '6'));
+        }
         event.setCancelled(true);
     }
 }

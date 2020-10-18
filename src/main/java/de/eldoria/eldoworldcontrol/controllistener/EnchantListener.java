@@ -19,8 +19,10 @@ public class EnchantListener extends BaseControlListener {
         Material materialName = event.getItem().getType();
 
         if (validator.canEnchant(p, materialName)) return;
-        sender.sendLocalizedError(p, "permission.error.enchant",
-                Replacement.create("MAT", materialName, '6'));
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.enchant",
+                    Replacement.create("MAT", materialName, '6'));
+        }
         event.setCancelled(true);
     }
 }

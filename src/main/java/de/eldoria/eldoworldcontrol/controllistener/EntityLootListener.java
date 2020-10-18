@@ -22,8 +22,10 @@ public class EntityLootListener extends BaseControlListener {
 
         if (validator.canLoot(killer, event.getEntity().getType())) return;
 
-        sender.sendLocalizedError(killer, "permission.error.loot",
-                Replacement.create("ENTITY", event.getEntity().getType(), '6'));
+        if (messages) {
+            sender.sendLocalizedError(killer, "permission.error.loot",
+                    Replacement.create("ENTITY", event.getEntity().getType(), '6'));
+        }
         event.getDrops().clear();
         event.setDroppedExp(0);
     }
