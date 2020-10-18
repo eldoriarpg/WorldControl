@@ -38,11 +38,11 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats.bukkit</pattern>
-                            <shadedPattern>de.eldoria.bloodnight.bstats</shadedPattern>
+                            <shadedPattern>de.eldoria.eldoworldcontrol.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>de.eldoria.eldoutilities</pattern>
-                            <shadedPattern>de.eldoria.bloodnight.eldoutilities</shadedPattern>
+                            <shadedPattern>de.eldoria.eldoworldcontrol.eldoutilities</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
