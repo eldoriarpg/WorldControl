@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.Material;
@@ -34,6 +35,9 @@ public class ThrowListener extends BaseControlListener {
         } else {
             if (validator.canThrow(p, material)) return;
         }
+
+        sender.sendLocalizedError(p, "permission.error.throw",
+                Replacement.create("MAT", material, '6'));
         event.setCancelled(true);
     }
 

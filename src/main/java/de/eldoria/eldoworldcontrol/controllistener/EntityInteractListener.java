@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.entity.Player;
@@ -16,7 +17,8 @@ public class EntityInteractListener extends BaseControlListener {
         Player p = event.getPlayer();
 
         if (validator.canInteract(p, event.getRightClicked().getType())) return;
-
+        sender.sendLocalizedError(p, "permission.error.interactEntity",
+                Replacement.create("ENTITY", event.getRightClicked().getType(), '6'));
         event.setCancelled(true);
     }
 }

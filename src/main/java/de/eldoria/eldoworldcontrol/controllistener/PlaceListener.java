@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.Material;
@@ -18,7 +19,8 @@ public class PlaceListener extends BaseControlListener {
         Material material = event.getBlock().getType();
 
         if (validator.canPlace(p, material)) return;
-
+        sender.sendLocalizedError(p, "permission.error.place",
+                Replacement.create("MAT", material, '6'));
         event.setCancelled(true);
     }
 

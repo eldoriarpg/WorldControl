@@ -14,7 +14,7 @@ public class LoginListener extends BaseControlListener {
     public void onLogin(PlayerJoinEvent event) {
         if (validator.canJoin(event.getPlayer())) return;
         event.setJoinMessage(null);
-        event.getPlayer().kickPlayer("You don't have the permission to join this server!");
+        event.getPlayer().kickPlayer(localizer.getMessage("permission.error.login"));
 
     }
 }

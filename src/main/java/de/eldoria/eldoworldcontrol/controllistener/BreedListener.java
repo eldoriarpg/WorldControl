@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.entity.LivingEntity;
@@ -23,6 +24,8 @@ public class BreedListener extends BaseControlListener {
             return;
         }
 
+        sender.sendLocalizedError(player, "permission.error.breed",
+                Replacement.create("ENTITY", event.getEntityType(),'6'));
         event.setCancelled(true);
         event.setExperience(0);
     }

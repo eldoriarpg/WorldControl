@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.Material;
@@ -37,6 +38,10 @@ public class UseListener extends BaseControlListener {
                 return;
             }
             if (!mainMaterial.isItem()) return;
+            sender.sendLocalizedError(p, "permission.error.use",
+                    Replacement.create("MAT", mainMaterial, '6'));
+            event.setCancelled(true);
+            return;
         }
 
         if (hand == EquipmentSlot.OFF_HAND) {
@@ -44,8 +49,9 @@ public class UseListener extends BaseControlListener {
                 return;
             }
             if (!mainMaterial.isItem()) return;
+            sender.sendLocalizedError(p, "permission.error.use",
+                    Replacement.create("MAT", offHandMaterial, '6'));
+            event.setCancelled(true);
         }
-
-        event.setCancelled(true);
     }
 }

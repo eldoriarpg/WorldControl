@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.Bukkit;
@@ -18,6 +19,8 @@ public class TameListener extends BaseControlListener {
 
         if (validator.canTame(p, event.getEntityType())) return;
 
+        sender.sendLocalizedError(p, "permission.error.tame",
+                Replacement.create("ENTITY", event.getEntityType(), '6'));
         event.setCancelled(true);
     }
 }
