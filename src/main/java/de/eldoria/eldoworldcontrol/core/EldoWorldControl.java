@@ -3,16 +3,22 @@ package de.eldoria.eldoworldcontrol.core;
 import de.eldoria.eldoutilities.localization.ILocalizer;
 import de.eldoria.eldoutilities.messages.MessageSender;
 import de.eldoria.eldoutilities.plugin.EldoPlugin;
+import de.eldoria.eldoutilities.serialization.SerializationUtil;
 import de.eldoria.eldoworldcontrol.ConfigValidator;
 import de.eldoria.eldoworldcontrol.command.WorldControlCommand;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
-import de.eldoria.eldoworldcontrol.core.data.PermissionGroups;
+import de.eldoria.eldoworldcontrol.core.config.Config;
+import de.eldoria.eldoworldcontrol.core.config.General;
+import de.eldoria.eldoworldcontrol.core.config.ModuleSetting;
+import de.eldoria.eldoworldcontrol.core.config.Modules;
+import de.eldoria.eldoworldcontrol.core.config.dropreplacements.DropReplacement;
+import de.eldoria.eldoworldcontrol.core.config.dropreplacements.DropReplacements;
+import de.eldoria.eldoworldcontrol.core.config.permissiongroups.PermissionGroup;
+import de.eldoria.eldoworldcontrol.core.config.permissiongroups.PermissionGroups;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionVerboseLogger;
 import de.eldoria.eldoworldcontrol.core.reloading.SharedData;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
@@ -21,18 +27,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.logging.Logger;
 
 public class EldoWorldControl extends EldoPlugin {
     private static EldoWorldControl instance;
     private static boolean debug = false;
     private final List<BaseControlListener> modules = new ArrayList<>();
-    private final Logger logger = Bukkit.getLogger();
-    private PermissionGroups groups;
     private PermissionValidator permissionValidator;
     private PluginManager pm;
+    private boolean initialized = false;
+    private Config config;
 
     @Override
     public void onDisable() {
@@ -43,27 +48,25 @@ public class EldoWorldControl extends EldoPlugin {
     public void onEnable() {
         this.saveDefaultConfig();
 
-        logger.info("World control started!");
+        getLogger().info("§2Initializing Eldo World Control!");
 
-        // Just do things here which only need a single setup.
-        pm = Bukkit.getPluginManager();
+        if (!initialized) {
+            initSerialization();
+            config = new Config(this);
 
-        if (instance == null) {
-            instance = this;
+            MessageSender.create(this, "§6[WC§6]", '2', 'c');
+            ILocalizer.create(this,
+                    config.getGeneral().getLanguage(),
+                    "messages",
+                    "messages",
+                    Locale.US,
+                    "en_US", "de_DE");
+
+            PermissionVerboseLogger logger = new PermissionVerboseLogger();
+            permissionValidator = new PermissionValidator(logger);
+
+            registerCommand("worldControl", new WorldControlCommand(this, logger));
         }
-
-        MessageSender.create(this, "§6[WC§6]", '2', 'c');
-        ILocalizer.create(this,
-                getConfig().getString("language", "en_US"),
-                "messages",
-                "messages",
-                Locale.US,
-                "en_US", "de_DE");
-
-        PermissionVerboseLogger logger = new PermissionVerboseLogger();
-        permissionValidator = new PermissionValidator(logger);
-
-        registerCommand("worldControl", new WorldControlCommand(this, logger));
 
         // Regular setup with the reload method
         reload();
@@ -71,9 +74,7 @@ public class EldoWorldControl extends EldoPlugin {
 
     public void reload() {
         this.reloadConfig();
-        ConfigValidator.validate(this);
-        FileConfiguration config = this.getConfig();
-        debug = config.getBoolean("debug");
+        debug = config.getGeneral().isDebug();
         SharedData data = new SharedData(config, permissionValidator);
         permissionValidator.reload(data);
         HandlerList.unregisterAll(this);
@@ -81,68 +82,63 @@ public class EldoWorldControl extends EldoPlugin {
     }
 
     private void initModules(SharedData data) {
-        PermissionValidator validator = data.getValidator();
-        ConfigurationSection modules = data.getConfiguration().getConfigurationSection("listener");
+        PermissionValidator validator = data.getPermissionValidator();
 
-        // load modules from config
-        if (modules == null) {
-            logger.warning("No listener section was found.");
-            return;
-        }
+        for (Map.Entry<Class<? extends BaseControlListener>, ModuleSetting> entry
+                : data.getConfig().getModules().getModuleSettings().entrySet()) {
 
-        // load modules names
-        Set<String> keys = modules.getKeys(false);
+            Class<? extends BaseControlListener> clazz = entry.getKey();
+            ModuleSetting setting = entry.getValue();
 
-        for (String key : keys) {
             // state of modules
-            boolean state = modules.getBoolean(key);
-            Class<? extends BaseControlListener> loadedClass;
+            boolean state = setting.isEnabled();
+
+            Class<? extends BaseControlListener> listenerClazz;
 
             // Find listener class
             try {
                 Class<?> loadClass = getClassLoader()
-                        .loadClass("de.eldoria.eldoworldcontrol.controllistener." + key);
-                loadedClass = (Class<? extends BaseControlListener>) loadClass;
+                        .loadClass("de.eldoria.eldoworldcontrol.controllistener." + setting.getClazz());
+                listenerClazz = (Class<? extends BaseControlListener>) loadClass;
             } catch (ClassNotFoundException e) {
-                logger.warning("Invalid modules: " + key);
+                getLogger().warning("Invalid modules: " + setting.getClazz());
                 continue;
             } catch (ClassCastException e) {
-                logger.warning(key + " is not a listener.");
+                getLogger().warning(setting.getClazz() + " is not a listener.");
                 continue;
             }
 
-            Optional<BaseControlListener> registeredListener = getRegisteredListener(loadedClass);
+            Optional<BaseControlListener> registeredListener = getRegisteredListener(listenerClazz);
 
             if (state) {
                 // check if listener is already registered. reload if registered
                 if (registeredListener.isPresent()) {
-                    logger.info("Module " + key + " is active.");
+                    getLogger().info("Module " + listenerClazz + " is active.");
                     registeredListener.get().reload(data);
                     continue;
                 }
 
                 // Register a new plugin handler and initialize
                 try {
-                    BaseControlListener listener = loadedClass
+                    BaseControlListener listener = listenerClazz
                             .getConstructor(PermissionValidator.class)
                             .newInstance(validator);
                     listener.init(data);
                     pm.registerEvents(listener, this);
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
-                    logger.warning("Something went wrong while initialising: " + key);
+                    getLogger().warning("Something went wrong while initialising: " + setting.getClazz());
                 }
-
-                logger.info("Registered modules " + key);
+                getLogger().info("Registered modules " + setting.getClazz());
             } else {
                 // check if listener is not registered
                 if (!registeredListener.isPresent()) {
-                    logger.info("Module " + key + " in inactive.");
+                    getLogger().info("Module " + setting.getClazz() + " in inactive.");
                     continue;
                 }
 
                 // unregister listener
                 HandlerList.unregisterAll(registeredListener.get());
-                logger.info("Unregistered modules " + key);
+                getLogger().info("Unregistered modules " + setting.getClazz());
             }
         }
     }
@@ -157,5 +153,15 @@ public class EldoWorldControl extends EldoPlugin {
             }
         }
         return Optional.empty();
+    }
+
+    private void initSerialization() {
+        ConfigurationSerialization.registerClass(DropReplacement.class);
+        ConfigurationSerialization.registerClass(DropReplacements.class);
+        ConfigurationSerialization.registerClass(PermissionGroup.class);
+        ConfigurationSerialization.registerClass(PermissionGroups.class);
+        ConfigurationSerialization.registerClass(General.class);
+        ConfigurationSerialization.registerClass(Modules.class);
+        ConfigurationSerialization.registerClass(ModuleSetting.class);
     }
 }

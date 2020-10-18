@@ -1,29 +1,16 @@
 package de.eldoria.eldoworldcontrol.core.reloading;
 
-import de.eldoria.eldoworldcontrol.core.data.PermissionGroups;
+import de.eldoria.eldoworldcontrol.core.config.Config;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
-import org.bukkit.configuration.file.FileConfiguration;
+import lombok.Getter;
 
+@Getter
 public class SharedData {
-    private FileConfiguration configuration;
+    private Config config;
     private PermissionValidator permissionValidator;
-    private PermissionGroups groups;
 
-    public SharedData(FileConfiguration config, PermissionValidator permissionValidator) {
-        this.configuration = config;
+    public SharedData(Config config, PermissionValidator permissionValidator) {
+        this.config = config;
         this.permissionValidator = permissionValidator;
-        groups = new PermissionGroups(configuration);
-    }
-
-    public FileConfiguration getConfiguration() {
-        return configuration;
-    }
-
-    public PermissionGroups getGroups() {
-        return groups;
-    }
-
-    public PermissionValidator getValidator() {
-        return permissionValidator;
     }
 }
