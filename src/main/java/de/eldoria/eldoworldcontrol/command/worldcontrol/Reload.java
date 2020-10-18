@@ -23,7 +23,7 @@ public class Reload extends EldoCommand {
             return true;
         }
         plugin.reload();
-        messageSender().sendLocalizedMessage(sender, "Reload complete.");
+        messageSender().sendLocalizedMessage(sender, "reload.done");
         return true;
     }
 }
