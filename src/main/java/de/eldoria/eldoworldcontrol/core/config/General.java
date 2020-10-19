@@ -14,6 +14,7 @@ import java.util.Map;
 public class General implements ConfigurationSerializable {
     private boolean debug = false;
     private String language = "en_US";
+    private String permissionSpace = "worldcontrol";
 
     public General() {
     }
@@ -22,6 +23,7 @@ public class General implements ConfigurationSerializable {
         TypeResolvingMap map = SerializationUtil.mapOf(objectMap);
         debug = map.getValueOrDefault("debug", debug);
         language = map.getValueOrDefault("language", language);
+        permissionSpace = map.getValueOrDefault("permissionSpace", permissionSpace);
     }
 
     @Override
@@ -29,6 +31,7 @@ public class General implements ConfigurationSerializable {
         return SerializationUtil.newBuilder()
                 .add("debug", debug)
                 .add("language", language)
+                .add("permissionSpace", permissionSpace)
                 .build();
     }
 }
