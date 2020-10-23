@@ -55,7 +55,6 @@ public class ThrowListener extends BaseControlListener {
             case LINGERING_POTION:
             case TRIDENT:
                 return false;
-
         }
         return true;
     }

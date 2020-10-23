@@ -1,4 +1,4 @@
-package de.eldoria.eldoworldcontrol.core.config;
+package de.eldoria.eldoworldcontrol.core.config.modules;
 
 import de.eldoria.eldoutilities.serialization.SerializationUtil;
 import de.eldoria.eldoutilities.serialization.TypeResolvingMap;
@@ -13,25 +13,32 @@ import java.util.Map;
 @Getter
 @SerializableAs("ewcModuleSetting")
 public class ModuleSetting implements ConfigurationSerializable {
-    private final String clazz;
-    private boolean enabled = true;
+    private final String clazzName;
+    private boolean enabled = false;
     private boolean errorMessageEnabled = true;
+    private transient Class<? extends BaseControlListener> clazz = null;
 
     public ModuleSetting(Class<? extends BaseControlListener> clazz) {
-        this.clazz = clazz.getSimpleName();
+        this.clazzName = clazz.getSimpleName();
+        this.clazz = clazz;
     }
 
     public ModuleSetting(Map<String, Object> objectMap) {
         TypeResolvingMap map = SerializationUtil.mapOf(objectMap);
-        clazz = map.getValue("clazz");
+        clazzName = map.getValue("clazz");
         enabled = map.getValue("enabled");
         errorMessageEnabled = map.getValue("errorMessageEnabled");
+    }
+
+    public void setClazz(Class<? extends BaseControlListener> clazz) {
+        if (this.clazz != null) return;
+        this.clazz = clazz;
     }
 
     @Override
     public @NotNull Map<String, Object> serialize() {
         return SerializationUtil.newBuilder()
-                .add("clazz", clazz)
+                .add("clazz", clazzName)
                 .add("enabled", enabled)
                 .add("errorMessageEnabled", errorMessageEnabled)
                 .build();

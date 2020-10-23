@@ -3,7 +3,7 @@ package de.eldoria.eldoworldcontrol.controllistener.util;
 import de.eldoria.eldoutilities.localization.ILocalizer;
 import de.eldoria.eldoutilities.messages.MessageSender;
 import de.eldoria.eldoworldcontrol.core.EldoWorldControl;
-import de.eldoria.eldoworldcontrol.core.config.ModuleSetting;
+import de.eldoria.eldoworldcontrol.core.config.modules.ModuleSetting;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import de.eldoria.eldoworldcontrol.core.reloading.Reloadable;
 import de.eldoria.eldoworldcontrol.core.reloading.SharedData;

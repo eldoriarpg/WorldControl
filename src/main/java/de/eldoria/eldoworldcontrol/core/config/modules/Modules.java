@@ -1,4 +1,4 @@
-package de.eldoria.eldoworldcontrol.core.config;
+package de.eldoria.eldoworldcontrol.core.config.modules;
 
 import de.eldoria.eldoutilities.serialization.SerializationUtil;
 import de.eldoria.eldoutilities.serialization.TypeResolvingMap;
@@ -83,8 +83,9 @@ public class Modules implements ConfigurationSerializable {
         List<ModuleSetting> settings = map.getValueOrDefault("moduleSettings", new ArrayList<>());
         for (Class<? extends BaseControlListener> clazz : LISTENER) {
             Optional<ModuleSetting> first = settings.stream()
-                    .filter(s -> s.getClazz().equalsIgnoreCase(clazz.getSimpleName()))
+                    .filter(s -> s.getClazzName().equalsIgnoreCase(clazz.getSimpleName()))
                     .findFirst();
+            first.ifPresent(l -> l.setClazz(clazz));
             this.settings.put(clazz, first.orElse(new ModuleSetting(clazz)));
         }
     }
