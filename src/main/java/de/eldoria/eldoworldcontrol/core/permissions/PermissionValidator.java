@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class PermissionValidator implements Reloadable {
 
-    private static final String PREFIX = "ewc.";
+    private String prefix = "worldcontrol.";
     private final PermissionVerboseLogger logger;
     private PermissionGroups groups;
 
@@ -44,8 +44,8 @@ public class PermissionValidator implements Reloadable {
      * @return true if the player has the permission
      */
     private boolean rawPermissionCheck(Player player, String permission) {
-        boolean hasPermission = player.hasPermission(PREFIX + permission);
-        logger.log(player, PREFIX + permission, hasPermission);
+        boolean hasPermission = player.hasPermission(prefix + permission);
+        logger.log(player, prefix + permission, hasPermission);
         return hasPermission;
     }
 
@@ -423,6 +423,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @return true if the player has the permission
      */
+    //TODO: Add potion type detection.
     public boolean canConsume(Player player, Material material) {
         return groupPermissionCheck(player, material, "consume");
     }
@@ -508,6 +509,7 @@ public class PermissionValidator implements Reloadable {
     @Override
     public void reload(SharedData data) {
         groups = data.getConfig().getPermissionGroups();
+        prefix = data.getConfig().getGeneral().getPermissionSpace() + ".";
     }
 
 }
