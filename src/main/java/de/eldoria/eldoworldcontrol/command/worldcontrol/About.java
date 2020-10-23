@@ -21,13 +21,12 @@ public class About extends EldoCommand {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         PluginDescriptionFile descr = plugin.getDescription();
-        String info = localizer().getMessage("about",
-                Replacement.create("PLUGIN_NAME", "World Control").addFormatting('b'),
-                Replacement.create("AUTHORS", String.join(", ", descr.getAuthors())).addFormatting('b'),
-                Replacement.create("VERSION", descr.getVersion()).addFormatting('b'),
-                Replacement.create("WEBSITE", descr.getWebsite()).addFormatting('b'),
+        messageSender().sendLocalizedMessage(sender, "about",
+                Replacement.create("PLUGIN_NAME", "World Control", 'b'),
+                Replacement.create("AUTHORS", String.join(", ", descr.getAuthors()), 'b'),
+                Replacement.create("VERSION", descr.getVersion(), 'b'),
+                Replacement.create("WEBSITE", descr.getWebsite(), 'b'),
                 Replacement.create("DISCORD", "https://discord.gg/rfRuUge").addFormatting('b'));
-        messageSender().sendMessage(sender, info);
         return true;
     }
 

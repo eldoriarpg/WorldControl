@@ -22,8 +22,10 @@ public class Reload extends EldoCommand {
         if (denyAccess(sender, "ewc.command.reload")) {
             return true;
         }
+        EldoWorldControl.logger().info("Reloading plugin.");
         plugin.reload();
-        messageSender().sendLocalizedMessage(sender, "Reload complete.");
+        EldoWorldControl.logger().info("Reload done.");
+        messageSender().sendLocalizedMessage(sender, "reload.done");
         return true;
     }
 }

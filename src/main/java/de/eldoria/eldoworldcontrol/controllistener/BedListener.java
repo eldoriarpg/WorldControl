@@ -19,7 +19,9 @@ public class BedListener extends BaseControlListener {
         Player p = event.getPlayer();
 
         if (validator.canEnterBed(p)) return;
-
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.enterBed");
+        }
         event.setCancelled(true);
     }
 }

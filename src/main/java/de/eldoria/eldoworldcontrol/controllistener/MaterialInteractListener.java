@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.Material;
@@ -37,6 +38,10 @@ public class MaterialInteractListener extends BaseControlListener {
 
         if (validator.canInteract(p, material)) return;
 
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.interact",
+                    Replacement.create("MAT", material, '6'));
+        }
         event.setCancelled(true);
     }
 }

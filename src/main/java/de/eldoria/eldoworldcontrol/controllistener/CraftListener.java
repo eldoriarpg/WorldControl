@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.Bukkit;
@@ -18,10 +19,13 @@ public class CraftListener extends BaseControlListener {
     public void onCraft(CraftItemEvent event) {
         if (event.getWhoClicked() instanceof Player) {
             Player p = Bukkit.getPlayer(event.getWhoClicked().getName());
-            Material materialName = event.getInventory().getResult().getType();
+            Material material = event.getInventory().getResult().getType();
 
-            if (validator.canCraft(p, materialName)) return;
-
+            if (validator.canCraft(p, material)) return;
+            if (messages) {
+                sender.sendLocalizedError(p, "permission.error.craft",
+                        Replacement.create("MAT", material, '6'));
+            }
             event.setCancelled(true);
         }
     }

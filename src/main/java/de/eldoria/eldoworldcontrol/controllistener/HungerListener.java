@@ -17,6 +17,9 @@ public class HungerListener extends BaseControlListener {
 
         if (validator.canReceiveHunger(p)) return;
 
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.hunger");
+        }
         event.setCancelled(true);
         event.setFoodLevel(20);
     }

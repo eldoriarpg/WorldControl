@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.entity.Player;
@@ -39,6 +40,10 @@ public class SmeltListener extends BaseControlListener {
         Player player = (Player) event.getWhoClicked();
         if (validator.canSmelt(player, event.getCurrentItem().getType())) return;
 
+        if (messages) {
+            sender.sendLocalizedError(player, "permission.error.smelt",
+                    Replacement.create("MAT", event.getCurrentItem().getType(), '6'));
+        }
         event.setCancelled(true);
     }
 }

@@ -2,6 +2,7 @@ package de.eldoria.eldoworldcontrol.controllistener;
 
 import de.eldoria.eldoutilities.entityutils.ProjectileSender;
 import de.eldoria.eldoutilities.entityutils.ProjectileUtil;
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.entity.Player;
@@ -34,7 +35,10 @@ public class DamageTakeByEntityListener extends BaseControlListener {
             } else {
                 if (validator.canTakeDamageFrom(p, event.getDamager().getType())) return;
             }
-
+            if (messages) {
+                super.sender.sendLocalizedError(p, "permission.error.damageTakeEntity",
+                        Replacement.create("permission.error.damageTakeEntity", event.getDamager().getType(), '6'));
+            }
             event.setCancelled(true);
             event.setDamage(0);
         }

@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.entity.Player;
@@ -17,6 +18,10 @@ public class RideListener extends BaseControlListener {
             Player p = (Player) event.getEntity();
 
             if (validator.canRide(p, event.getEntityType())) return;
+            if (messages) {
+                sender.sendLocalizedError(p, "permission.error.ride",
+                        Replacement.create("ENTITY", event.getEntityType(), '6'));
+            }
 
             event.setCancelled(true);
         }

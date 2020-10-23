@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,11 @@ public class ShearListener extends BaseControlListener {
     @EventHandler
     public void onShear(PlayerShearEntityEvent event) {
         if (validator.canShear(event.getPlayer(), event.getEntity().getType())) return;
+
+        if (messages) {
+            sender.sendLocalizedError(event.getPlayer(), "permission.error.shear",
+                    Replacement.create("ENTITY", event.getEntity().getType(), '6'));
+        }
         event.setCancelled(true);
     }
 }

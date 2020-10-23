@@ -1,71 +1,119 @@
-# do not change this
 version: 1
-# causes a huge amount of log messages when set to true
-debug: true
-language: 'en_US'
+general:
+  ==: ewcGeneral
+  debug: false
+  language: en_US
+  permissionSpace: worldcontrol
 modules:
-  #Controls the usage of beds
-  BedListener: true
-  #Controls the usage of buckets on blocks an entities
-  BucketListener: true
-  #Controls the items a player can craft
-  CraftListener: true
-  #Controls the items a player can drop
-  DropListener: true
-  #Controls the items a player can enchant
-  EnchantListener: true
-  #Controlst the blocks a player can interact with
-  MaterialInteractListener: true
-  #Controls the items and blocks a player can drop
-  PickupListener: true
-  #Controls the items a player can smelt
-  SmeltListener: true
-  #Controls the items a player can throw
-  ThrowListener: true
-  #Controls the items a player can use
-  UseListener: true
-  #Controls the blocks a player can break. Sperates between can't break, can break but don't receive items and can break
-  BreakListener: true
-  #Controls the blocks a player can place.
-  PlaceListener: true
-  #Controls the damage that a player can deal to entities
-  DamageDealByEntityListener: true
-  #Controls the damage that a player can take from entities
-  DamageTakeByEntityListener: true
-  #Controls every damage, a player can take
-  DamageTakeListener: true
-  #Controls the entities a player can receive loot with killing them.
-  EntityLootListener: true
-  #Controls the entities a player can interact with
-  EntityInteractListener: true
-  #Controls on which entities a player can ride
-  RideListener: true
-  #Controls which animals a player can tame
-  TameListener: true
-  #Controls which animals can take the player as target
-  TargetListener: true
-  #Controls which items a player can consume
-  ConsumeListener: true
-  #Controls which items a player can fish
-  FishListener: true
-  #Controls if the player can get hungry
-  HungerListener: true
-  #Controls which entities a player can shear
-  ShearListener: true
-
-##########################################################################
-# When a user has the permission to break a block,                       #
-# but not to the permission to receive the block,                        #
-# you can enter a replacement block or item which the user will receive. #
-# You can also enter a optinal amount after the replacement              #
-##########################################################################
+  ==: ewcModules
+  moduleSettings:
+    - ==: ewcModuleSetting
+      clazz: PickupListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: BucketListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: PlaceListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: BreakListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: TargetListener
+      enabled: false
+      errorMessageEnabled: false
+    - ==: ewcModuleSetting
+      clazz: DamageTakeByEntityListener
+      enabled: false
+      errorMessageEnabled: false
+    - ==: ewcModuleSetting
+      clazz: DamageDealByEntityListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: DamageTakeListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: TameListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: ShearListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: MaterialInteractListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: RideListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: HungerListener
+      enabled: false
+      errorMessageEnabled: false
+    - ==: ewcModuleSetting
+      clazz: LoginListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: EnchantListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: EntityInteractListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: DropListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: CraftListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: EntityLootListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: BedListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: SmeltListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: ThrowListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: ConsumeListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: FishListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: BreedListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: UseListener
+      enabled: false
+      errorMessageEnabled: true
 dropReplacements:
-  IRON_ORE: COBBLESTONE:2
-  GOLD_ORE: COBBLESTONE
-  DIAMOND_ORE: COBBLESTONE
-  COAL_ORE: COBBLESTONE
-ItemGroups:
-  stones:
-    - stone
-    - cobblestone
-    - cleanstone
+  ==: ewcDropReplacements
+  replacements: []
+permissionGroups:
+  ==: ewcPermissionGroups
+  permissionGroups: []

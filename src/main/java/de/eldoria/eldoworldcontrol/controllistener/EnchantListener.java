@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.Material;
@@ -18,7 +19,10 @@ public class EnchantListener extends BaseControlListener {
         Material materialName = event.getItem().getType();
 
         if (validator.canEnchant(p, materialName)) return;
-
+        if (messages) {
+            sender.sendLocalizedError(p, "permission.error.enchant",
+                    Replacement.create("MAT", materialName, '6'));
+        }
         event.setCancelled(true);
     }
 }

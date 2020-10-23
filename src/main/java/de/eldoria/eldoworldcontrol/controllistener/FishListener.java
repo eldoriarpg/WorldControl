@@ -1,5 +1,6 @@
 package de.eldoria.eldoworldcontrol.controllistener;
 
+import de.eldoria.eldoutilities.localization.Replacement;
 import de.eldoria.eldoworldcontrol.controllistener.util.BaseControlListener;
 import de.eldoria.eldoworldcontrol.core.permissions.PermissionValidator;
 import org.bukkit.entity.Item;
@@ -26,6 +27,11 @@ public class FishListener extends BaseControlListener {
 
         if (validator.canFish(event.getPlayer(), caught.getItemStack().getType())) {
             return;
+        }
+
+        if (messages) {
+            sender.sendLocalizedError(event.getPlayer(), "permission.error.fish",
+                    Replacement.create("MAT", caught.getItemStack().getType(), '6'));
         }
 
         // remove fished item

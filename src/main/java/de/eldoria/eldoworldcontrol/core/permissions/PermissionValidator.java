@@ -1,6 +1,7 @@
 package de.eldoria.eldoworldcontrol.core.permissions;
 
-import de.eldoria.eldoworldcontrol.core.data.PermissionGroups;
+import de.eldoria.eldoworldcontrol.core.config.permissiongroups.PermissionGroup;
+import de.eldoria.eldoworldcontrol.core.config.permissiongroups.PermissionGroups;
 import de.eldoria.eldoworldcontrol.core.reloading.Reloadable;
 import de.eldoria.eldoworldcontrol.core.reloading.SharedData;
 import org.bukkit.Material;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 public class PermissionValidator implements Reloadable {
 
-    private static final String PREFIX = "ewc.";
+    private String prefix = "worldcontrol.";
     private final PermissionVerboseLogger logger;
     private PermissionGroups groups;
 
@@ -43,14 +44,14 @@ public class PermissionValidator implements Reloadable {
      * @return true if the player has the permission
      */
     private boolean rawPermissionCheck(Player player, String permission) {
-        boolean hasPermission = player.hasPermission(PREFIX + permission);
-        logger.log(player, PREFIX + permission, hasPermission);
+        boolean hasPermission = player.hasPermission(prefix + permission);
+        logger.log(player, prefix + permission, hasPermission);
         return hasPermission;
     }
 
-    ///////////////////////
+    //////////////////////
     // Permission Check //
-    ///////////////////////
+    //////////////////////
 
     /**
      * Check if a player has the permission to enter a bed.
@@ -422,6 +423,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @return true if the player has the permission
      */
+    //TODO: Add potion type detection.
     public boolean canConsume(Player player, Material material) {
         return groupPermissionCheck(player, material, "consume");
     }
@@ -480,7 +482,7 @@ public class PermissionValidator implements Reloadable {
      *
      * @return true if the player has the permission
      */
-    private boolean checkGroupPermission(Player player, String enumConst, Set<String> groups, String... perms) {
+    private boolean checkGroupPermission(Player player, String enumConst, Set<PermissionGroup> groups, String... perms) {
         String perm = String.join(".", Arrays.asList(perms));
 
         // If no groups were set just perform a normal permission lookup.
@@ -494,8 +496,8 @@ public class PermissionValidator implements Reloadable {
 
         // Check for each group if the user has a permission for one of them.
 
-        for (String group : groups) {
-            if (rawPermissionCheck(player, perm, "group", group)) {
+        for (PermissionGroup group : groups) {
+            if (rawPermissionCheck(player, perm, "group", group.getName())) {
                 return true;
             }
         }
@@ -506,7 +508,8 @@ public class PermissionValidator implements Reloadable {
 
     @Override
     public void reload(SharedData data) {
-        groups = data.getGroups();
+        groups = data.getConfig().getPermissionGroups();
+        prefix = data.getConfig().getGeneral().getPermissionSpace() + ".";
     }
 
 }
