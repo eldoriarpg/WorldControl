@@ -21,8 +21,10 @@ public class DropListener extends BaseControlListener {
         Material materialName = event.getItemDrop().getItemStack().getType();
 
         if (p.getGameMode() == GameMode.CREATIVE) {
-            if (validator.canDropInCreative(p, materialName)) return;
-
+            if (validator.canDropInCreative(p, materialName)
+                    && validator.canDrop(p, materialName)) {
+                return;
+            }
         } else {
             if (validator.canDrop(p, materialName)) return;
         }
