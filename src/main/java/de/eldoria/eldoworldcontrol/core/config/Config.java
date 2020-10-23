@@ -3,6 +3,7 @@ package de.eldoria.eldoworldcontrol.core.config;
 import de.eldoria.eldoutilities.configuration.EldoConfig;
 import de.eldoria.eldoworldcontrol.core.EldoWorldControl;
 import de.eldoria.eldoworldcontrol.core.config.dropreplacements.DropReplacements;
+import de.eldoria.eldoworldcontrol.core.config.modules.Modules;
 import de.eldoria.eldoworldcontrol.core.config.permissiongroups.PermissionGroups;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,6 +29,7 @@ public class Config extends EldoConfig {
 
     private void init() {
         EldoWorldControl.logger().info("§2Initial Config Setup");
+        plugin.saveDefaultConfig();
         FileConfiguration config = plugin.getConfig();
         version = 1;
         general = new General();
@@ -58,5 +60,6 @@ public class Config extends EldoConfig {
         modules = config.getObject("modules", Modules.class);
         dropReplacements = config.getObject("dropReplacements", DropReplacements.class);
         permissionGroups = config.getObject("permissionGroups", PermissionGroups.class);
+        save();
     }
 }

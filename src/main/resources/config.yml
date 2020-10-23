@@ -1,0 +1,119 @@
+version: 1
+general:
+  ==: ewcGeneral
+  debug: false
+  language: en_US
+  permissionSpace: worldcontrol
+modules:
+  ==: ewcModules
+  moduleSettings:
+    - ==: ewcModuleSetting
+      clazz: PickupListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: BucketListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: PlaceListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: BreakListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: TargetListener
+      enabled: false
+      errorMessageEnabled: false
+    - ==: ewcModuleSetting
+      clazz: DamageTakeByEntityListener
+      enabled: false
+      errorMessageEnabled: false
+    - ==: ewcModuleSetting
+      clazz: DamageDealByEntityListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: DamageTakeListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: TameListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: ShearListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: MaterialInteractListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: RideListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: HungerListener
+      enabled: false
+      errorMessageEnabled: false
+    - ==: ewcModuleSetting
+      clazz: LoginListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: EnchantListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: EntityInteractListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: DropListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: CraftListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: EntityLootListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: BedListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: SmeltListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: ThrowListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: ConsumeListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: FishListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: BreedListener
+      enabled: false
+      errorMessageEnabled: true
+    - ==: ewcModuleSetting
+      clazz: UseListener
+      enabled: false
+      errorMessageEnabled: true
+dropReplacements:
+  ==: ewcDropReplacements
+  replacements: []
+permissionGroups:
+  ==: ewcPermissionGroups
+  permissionGroups: []
