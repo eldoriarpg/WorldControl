@@ -95,7 +95,7 @@
         <dependency>
             <groupId>de.eldoria</groupId>
             <artifactId>EldoUtilities</artifactId>
-            <version>v1.0.28</version>
+            <version>v1.0.29</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -110,5 +110,4 @@
             <version>19.0.0</version>
         </dependency>
     </dependencies>
-
 </project>
